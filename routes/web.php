@@ -17,3 +17,5 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard.homepage');
 });
+
+Route::resource('siswa', 'SiswaController');
