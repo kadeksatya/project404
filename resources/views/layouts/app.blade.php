@@ -41,8 +41,12 @@
             toastr.error("Username Atau Password Salah !");
             
         });
-        $(".alert-success").click(function(){
-            toastr.info("Rediracting !");
+        $(".alert-success").show(function(){
+            toastr.success("{{session('sukses')}}");
+            
+        });
+        $(".alert-errorLogin").show(function(){
+            toastr.error("{{session('error')}}");
             
         })
     });

@@ -8,6 +8,10 @@ use Response;
 
 class SiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -98,8 +102,4 @@ class SiswaController extends Controller
        return response()->json('error',$siswa);
     }
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 }

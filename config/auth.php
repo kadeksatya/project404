@@ -46,6 +46,35 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+
+        'apiadmin' => [
+            'driver' => 'token',
+            'provider' => 'admin',
+        ],
+
+        'guru' => [
+            'driver' => 'session',
+            'provider' => 'guru',
+        ],
+
+        'apiguru' => [
+          'driver' => 'token',
+          'provider' => 'guru',
+        ],
+
+        'siswa' => [
+            'driver' => 'session',
+            'provider' => 'siswa',
+        ],
+
+        'apisiswa' => [
+          'driver' => 'token',
+          'provider' => 'siswa',
+        ],
     ],
 
     /*
@@ -67,6 +96,18 @@ return [
 
     'providers' => [
         'users' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'guru' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'siswa' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
