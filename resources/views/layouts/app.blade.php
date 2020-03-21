@@ -15,7 +15,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{asset('asset/css/toastr/build/toastr.min.css')}}">
+    <script src="{{asset('asset/css/toastr/build/toastr.min.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
@@ -24,5 +26,14 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+<script>
+    $(document).ready(function(){
+        $(".alert-error").show(function(){
+            toastr.error("Username Atau Password Salah !");
+            
+        })
+    });
+</script>
 </body>
 </html>
