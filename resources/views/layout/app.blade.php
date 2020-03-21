@@ -41,8 +41,8 @@
                             alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name">Kadek
-                            <strong>Satya</strong>
+                        <span class="user-name">
+                            <strong>{{ Auth::user()->name }}</strong>
                         </span>
                         <span class="user-role">Admin</span>
                         <span class="user-status">
@@ -179,12 +179,20 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Kadek Satya
+                                {{ Auth::user()->role }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="#">Setting Profile</a>
-                              <a class="dropdown-item" href="#">Change Password</a>
-                              <a class="dropdown-item" href="#">Log Out</a>
+                              <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Setting Profile</a>
+                              <a class="dropdown-item" href="#"><i class="fa fa-key"></i> Change Password</a>
+                              <a class="dropdown-item" href="{{ route('logout') }}"
+                              onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                               <i class="fa fa-sign-out-alt"></i> Log Out
+                           </a>
+
+                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                               @csrf
+                           </form>
                             </div>
                           </div>
                         
