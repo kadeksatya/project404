@@ -7,22 +7,29 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name')}}</title>
+      <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{asset('asset/css/plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{asset('asset/css/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('asset/css/novar.css')}}">
+  <link rel="stylesheet" href="{{asset('asset/css/plugins/toastr/toastr.min.css')}}">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+<!-- jQuery -->
+<script src="{{asset('asset/css/plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{asset('asset/css/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('asset/css/toastr/build/toastr.min.css')}}">
-    <script src="{{asset('asset/css/toastr/build/toastr.min.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
+<script src="{{asset('asset/js/novar.min.js')}}"></script>
+  <!-- Google Font: Source Sans Pro -->
+  <script src="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
+
+
 </head>
-<body>
+<body class="hold-transition login-page">
         <main class="py-4">
             @yield('content')
         </main>
@@ -32,8 +39,13 @@
         $(".alert-error").show(function(){
             toastr.error("Username Atau Password Salah !");
             
+        });
+        $(".alert-success").show(function(){
+            toastr.success("Rediracting !");
+            
         })
     });
 </script>
+
 </body>
 </html>
