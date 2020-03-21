@@ -44,7 +44,7 @@
                         <span class="user-name">Kadek
                             <strong>Satya</strong>
                         </span>
-                        <span class="user-role">User</span>
+                        <span class="user-role">Admin</span>
                         <span class="user-status">
                             <i class="fa fa-circle"></i>
                             <span>Online</span>
@@ -68,7 +68,7 @@
                 <div class=" sidebar-item sidebar-menu">
                     <ul>
                         <li class="header-menu">
-                            <span>General</span>
+                            <span>Menu</span>
                         </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
@@ -105,7 +105,10 @@
                                         <a href="#"><i class="fa fa-pen"></i> Add Siswa
                                         </a>
                                     </li>
-                                   
+                                    <li>
+                                        <a href="#"><i class="fa fa-users"></i> Daftar Siswa
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -120,11 +123,31 @@
                                         <a href="#"><i class="fa fa-pen"></i> Add Guru
                                         </a>
                                     </li>
-                                    
+                                    <li>
+                                        <a href="#"><i class="fa fa-users"></i> Daftar Guru
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
-                       
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="far fa-table"></i>
+                                <span class="menu-text">Kelas</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#"><i class="fa fa-pen"></i> Add Kelas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-table"></i> Daftar Kelas
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         
                         
                        

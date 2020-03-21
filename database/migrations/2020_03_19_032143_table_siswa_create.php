@@ -14,11 +14,14 @@ class TableSiswaCreate extends Migration
     public function up()
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->bigIncrements('userID');
-            $table->string('nama');
-            $table->string('kelas');
-            $table->integer('nis');
+            $table->increments('id');
+            $table->string('nis')->nullable();
+            $table->unsignedInteger('id_users');
+            $table->string('kelas')->nullable();
             $table->timestamps();
+
+            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 
