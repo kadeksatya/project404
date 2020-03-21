@@ -33,7 +33,7 @@
                         <tbody id="siswa-data">
                             @if($siswa->count() > 0 )
                             @foreach ($siswa as $item)
-                            <tr id="siswaID_{{$item->userID}}">
+                            <tr id="id_siswa_{{$item->userID}}">
                                 <th>{{$item->userID}}</th>
                                 <td>{{$item->nama}}</td>
                                 <td>{{$item->kelas}}</td>
@@ -95,20 +95,6 @@
 
           <form action="" id="formsiswa" name="formsiswa">
             <input type="hidden" id="id_user" name="id_user">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
-            </div>
-            <input type="text" required id="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i class="fa fa-key"></i></span>
-            </div>
-            <input type="text" required id="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <hr>
-          <h5 class="text-center"> Detail siswa</h5>
           <hr>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -193,8 +179,7 @@
           $(".action").hide();
           $(".modal-title").text("Info Data Siswa");
           $("#id_user").val(data.userID).readonly;
-          $("#username").val(data.username);
-          $("#password").val(data.password);
+          
           $("#nama").val(data.nama);
           $("#nis").val(data.nis);
           $("#kelas").val(data.kelas);
@@ -235,14 +220,14 @@ if($("#formsiswa").length > 0){
         type: "POST",
         dataType:'json',
         success:function(data){
-        var siswa = '<th id="siswaID_' + data.userID + '"><td>'+ data.nama +'</td><td>'+ data.kelas +'</td><td>'+ data.nis +'</td>';
+        var siswa = '<th id="id_siswa_' + data.userID + '"><td>'+ data.nama +'</td><td>'+ data.kelas +'</td><td>'+ data.nis +'</td>';
         siswa+= '<td><div class="btn-group mr-2" role="group" aria-label="First group"> <button type="button" class="btn btn-sm btn-primary edit-data mr-2" data-id="'+data.userID+'"> <i class="fa fa-edit"></i> </button><button type="button" class="btn btn-sm btn-info info-data mr-2" data-id="'+data.userID+'"> <i class="fa fa-info"></i> </button><button type="button" class="btn btn-sm btn-danger delete-data" data-id="'+data.userID+'"> <i class="fa fa-trash"></i> </button></div></td>';
           if(actionType == 'add-data-siswa'){
             $("#siswa-data").prepend(siswa);
 
           }
           else{
-          $("#siswaID_" + data.userID).replaceWith(siswa);
+          $("#id_siswa_" + data.userID).replaceWith(siswa);
           }
 
         $("#formsiswa").trigger("reset");

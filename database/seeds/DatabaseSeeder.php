@@ -18,10 +18,8 @@ class DatabaseSeeder extends Seeder
 
             DB::table('siswa')->insert([
                 'nama' => 'Kadek Restu Satya Wardana',
-                'username' => 'kadeksatya',
                 'kelas' => '10 RPL',
                 'nis' => '12345',
-                'password' => bcrypt('secret'),
             ]);
         
     }
