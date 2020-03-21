@@ -15,7 +15,7 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $data['siswa'] = Siswa::orderBy('nis','asc')->paginate(5);
+        $data['siswa'] = Siswa::latest()->paginate(5);
         return view('dashboard.siswa',$data);
     }
 
@@ -37,12 +37,16 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $siswaID = $request->id_user;
-        $siswa = Siswa::Createorupdate(['id' => $siswaID],
-            ['nama' => $request->nama,'kelas' => $request->kelas,'nis' => $request->nis]
-        );
+       $id_siswa = $request->id_siswa;
 
-        return Response::json($siswa);
+       $siswa = Siswa::updateorCreate(['id' => $id_siswa],
+        [
+            'name' => $request->name,
+            'kelas' => $request->kelas,
+            'nis' => $request->nis
+        ]);
+
+        return response()->json('error',$siswa);
     }
 
     /**
@@ -64,10 +68,10 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        $where = array('id'=>$id);
+        $where = array('id' => $id);
         $siswa = Siswa::where($where)->first();
 
-        return Response::json($siswa);
+        return response()->json('error',$siswa);
     }
 
     /**
@@ -90,9 +94,8 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswa =Siswa::where('id',$id)->delete();
-
-        return Response::json($siswa);
+       $siswa = Siswa::where('id', $id)->delete();
+       return response()->json('error',$siswa);
     }
 
     public function __construct()

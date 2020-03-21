@@ -27,9 +27,10 @@
   <!-- Google Font: Source Sans Pro -->
   <script src="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
   <link rel="shortcut icon" type="image/png" href="{{asset('asset/img/user.jpeg')}}" />
+  <link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
 
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page background">
         <main class="py-4">
             @yield('content')
         </main>
@@ -40,8 +41,8 @@
             toastr.error("Username Atau Password Salah !");
             
         });
-        $(".alert-success").show(function(){
-            toastr.success("Rediracting !");
+        $(".alert-success").click(function(){
+            toastr.info("Rediracting !");
             
         })
     });

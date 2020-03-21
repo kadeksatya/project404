@@ -5,12 +5,12 @@
 
 <div class="login-box">
     <div class="login-logo">
-      <a href="../../index2.html"><b>Login</b> Letrasi</a>
+    <img src="{{asset('asset/img/user.jpeg')}}" class="rounded" width="80" height="80" alt="">
     </div>
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">Sistem Letrasi SMAN 4 Kuta Selatan</p>
   
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -18,6 +18,7 @@
             @error('username')
             <div class="alert-error"></div>
             @enderror
+            
           <div class="input-group mb-3">
             <input type="text" class="form-control" name="username" placeholder="Enter Username">
             <div class="input-group-append">
@@ -45,29 +46,13 @@
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block alert-success">Sign In</button>
             </div>
             <!-- /.col -->
           </div>
         </form>
   
-        <div class="social-auth-links text-center mb-3">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
-            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-          </a>
-          <a href="#" class="btn btn-block btn-danger">
-            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-          </a>
-        </div>
-        <!-- /.social-auth-links -->
-  
-        <p class="mb-1">
-          <a href="forgot-password.html">I forgot my password</a>
-        </p>
-        <p class="mb-0">
-          <a href="register.html" class="text-center">Register a new membership</a>
-        </p>
+       
       </div>
       <!-- /.login-card-body -->
     </div>

@@ -13,13 +13,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        DB::table('users')->insert([
-            'name'  => 'kadeksatya',
-            'username' => 'admin',
-            'password'  => bcrypt('password123'),
-            'role' => 'admin'
-    ]);
-        
+    //     DB::table('users')->insert([
+    //         'username' => 'admin',
+    //         'password'  => bcrypt('password123'),
+    //         'role' => 'admin'
+    // ]);
+    DB::table('siswa')->insert([
+        'name' => 'Kadek Satya',
+        'kelas'  => '10 RPL',
+        'nis' => '12345678',
+       
+]);
 
         
     }

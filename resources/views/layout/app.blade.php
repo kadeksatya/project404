@@ -43,10 +43,10 @@
                             alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name">
-                            <strong>{{ Auth::user()->name }}</strong>
+                        <span class="user-name text-uppercase">
+                            <strong>{{ Auth::user()->username }}</strong>
                         </span>
-                        <span class="user-role">Admin</span>
+                        <span class="user-role "></span>
                         <span class="user-status">
                             <i class="fa fa-circle"></i>
                             <span>Online</span>
@@ -73,7 +73,7 @@
                             <span>Menu</span>
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="/dashboard">
+                            <a href="/home ">
                                 <i class="fa fa-file"></i>
                                 <span class="menu-text">Dashboard</span>
                                 
@@ -112,7 +112,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="fa fa-pen"></i> Add Siswa
+                                        <a href="/siswa"><i class="fa fa-pen"></i> Add Siswa
                                         </a>
                                     </li>
                                     <li>
@@ -189,7 +189,7 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->role }}
+                                Kadek Restu Satya Wardana
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Setting Profile</a>
