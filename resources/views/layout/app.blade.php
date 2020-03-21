@@ -20,10 +20,10 @@
     <link rel="stylesheet" href="{{asset('asset/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('asset/css/sidebar-themes.css')}}">
     <link rel="shortcut icon" type="image/png" href="{{asset('asset/img/user.jpeg')}}" />
-    <link rel="stylesheet" href="{{asset('asset/css/toastr/build/toastr.min.css')}}">
+    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="{{asset('asset/css/toastr/build/toastr.min.js')}}"></script>
+    
 </head>
 
 <body>
