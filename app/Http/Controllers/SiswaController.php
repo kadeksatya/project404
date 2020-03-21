@@ -39,7 +39,7 @@ class SiswaController extends Controller
     {
         $siswaID = $request->id_user;
         $siswa = Siswa::Createorupdate(['id' => $siswaID],
-            ['username' => $request->username,'password' => $request->password,'nama' => $request->nama,'kelas' => $request->kelas,'nis' => $request->nis]
+            ['nama' => $request->nama,'kelas' => $request->kelas,'nis' => $request->nis]
         );
 
         return Response::json($siswa);
@@ -93,5 +93,10 @@ class SiswaController extends Controller
         $siswa =Siswa::where('id',$id)->delete();
 
         return Response::json($siswa);
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 }

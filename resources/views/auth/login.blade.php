@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
+@section('title','Wellcome Page')
 @section('content')
+
 
 <div class="login-box">
     <div class="login-logo">

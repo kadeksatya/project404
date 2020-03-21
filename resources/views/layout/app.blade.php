@@ -73,6 +73,14 @@
                             <span>Menu</span>
                         </li>
                         <li class="sidebar-dropdown">
+                            <a href="/dashboard">
+                                <i class="fa fa-file"></i>
+                                <span class="menu-text">Dashboard</span>
+                                
+                            </a>
+                            
+                        </li>
+                        <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-file"></i>
                                 <span class="menu-text">Literasi</span>

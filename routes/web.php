@@ -14,15 +14,8 @@
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/dashboard', function () {
-    return view('dashboard.homepage');
-});
-
+Auth::routes();
 Route::resource('siswa', 'SiswaController');
-Auth::routes([
-    'register' => true, // Registration Routes...
-    'reset' => false, // Password Reset Routes...
-    'verify' => false, // Email Verification Routes...
-  ]);
+
 
 Route::get('/home', 'HomeController@index')->name('home');
