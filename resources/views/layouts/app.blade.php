@@ -41,7 +41,11 @@
             
         });
         $(".alert-success").show(function(){
-            toastr.success("Rediracting !");
+            toastr.success("{{session('sukses')}}");
+            
+        });
+        $(".alert-errorLogin").show(function(){
+            toastr.error("{{session('error')}}");
             
         })
     });

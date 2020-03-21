@@ -2,6 +2,12 @@
 @section('title','Wellcome Page')
 @section('content')
 
+@if (!empty(session('sukses')))
+  <div class="alert-success"></div>
+@endif
+@if (!empty(session('error')))
+  <div class="alert-errorLogin"></div>
+@endif
 
 <div class="login-box">
     <div class="login-logo">
