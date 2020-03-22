@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Siswa;
+use App\User;
 use App\Kelas;
 use Response;
 
@@ -18,7 +20,13 @@ class SiswaController extends Controller
     public function index()
     {
         $datakelas['kelas']=Kelas::orderBy('id','asc')->get();
-        $data['siswa'] = Siswa::orderBy('id','desc')->paginate(10);
+        // $data['siswa'] = Siswa::orderBy('id','desc')->paginate(10);
+
+        $data['siswa'] = DB::table('siswa')
+                        ->select('siswa.id','siswa.gambar', 'siswa.name', 'siswa.nis','kelas.kelas','siswa.id_users')
+                        ->leftJoin('kelas','siswa.id_kelas','=','kelas.id')->orderBy('id','desc')->paginate(10);
+
+        // dd($data);
         return view('dashboard.siswa',$data, $datakelas);
     }
 
@@ -41,15 +49,23 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
        $id_siswa = $request->id_siswa;
+       $username = $request->nis;
 
+       $akun = User::updateorCreate([
+           'username' => $username, 
+           'password'  => bcrypt('Siswa123'),
+           'role' => 'siswa']);
+
+        // dd($akun);
        $siswa = Siswa::updateorCreate(['id' => $id_siswa],
         [
+            'nis' => $request->nis,
             'name' => $request->name,
             'id_kelas' => $request->kelas,
-            'nis' => $request->nis
+            'id_users' =>$akun->id,
         ]);
 
-        return response()->json('error',$siswa);
+        return response()->json($siswa);
     }
 
     /**
@@ -74,7 +90,7 @@ class SiswaController extends Controller
         $where = array('id' => $id);
         $siswa = Siswa::where($where)->first();
 
-        return response()->json('error',$siswa);
+        return response()->json($siswa);
     }
 
     /**
@@ -97,8 +113,13 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-       $siswa = Siswa::where('id', $id)->delete();
-       return response()->json('error',$siswa);
+        // hapus akunya dulu
+        $akun = Siswa::where('id', $id)->first();
+        $id_akun = $akun->id_users;
+        $siswa = User::where('id', $id_akun)->delete();
+        // hapus siswa
+        $siswa = Siswa::where('id', $id)->delete();
+       return response()->json($siswa);
     }
 
 

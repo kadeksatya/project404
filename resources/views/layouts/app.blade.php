@@ -41,11 +41,11 @@
             toastr.error("Username Atau Password Salah !");
             
         });
-        $(".alert-success").show(function(){
+        $(".alert-sukses").show(function(){
             toastr.success("{{session('sukses')}}");
             
         });
-        $(".alert-errorLogin").show(function(){
+        $(".alert-gagal").show(function(){
             toastr.error("{{session('error')}}");
             
         })

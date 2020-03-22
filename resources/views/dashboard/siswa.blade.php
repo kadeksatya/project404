@@ -28,10 +28,10 @@
                 <table class="table table-sm table-bordered table-hover ">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">No</th>
+                        <th scope="col">NISN</th>
                         <th scope="col">Nama Siswa</th>
-                        <th scope="col">Kelas Siswa</th>
-                        <th scope="col">No. Induk</th>
+                        <th scope="col">Kelas</th>
                         <th scope="col" class="text-center">Action</th>
                       </tr>
                     </thead>
@@ -39,12 +39,11 @@
                         @if ($siswa->count() > 0)
                         @foreach ($siswa as $s)
                             
-                       
                         <tr id="siswa_id_{{$s->id}}">
                             <th scope="row">{{$s->id}}</th>
+                            <td>{{$s->nis}}</td>
                             <td>{{$s->name}}</td>
                             <td>{{$s->kelas}}</td>
-                            <td>{{$s->nis}}</td>
                             <td class="text-center" width="1%">
                                 
                                     <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -97,6 +96,17 @@
           <form id="formsiswa" name="formsiswa">
               <input type="hidden" name="id_siswa" id="id_siswa">
               <div class="row">
+
+                <div class="col-md-12">
+                  <div class="input-group">
+                      <input type="text" class="form-control" id="nis" name="nis" required placeholder="Masukkan NISN">
+                      <div class="input-group-append">    
+                        <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+                      </div>
+                </div>
+                
+                </div>
+
                   <div class="col-md-12">
                     <div class="input-group">
                         <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan Nama Siswa">
@@ -105,7 +115,7 @@
                         </div>
                   </div>
                   
-              </div>
+                </div>
               <br>
               <br>
               <br>
@@ -133,16 +143,7 @@
               
               
               </div>
-              <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan No Induk Siswa">
-                    <div class="input-group-append">    
-                      <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-                    </div>
-              </div>
-              
-          </div>
-              
+                            
           </div>
         </div>
         <div class="modal-footer">
@@ -174,7 +175,7 @@
             $("#modalaction").modal("show");
             $(".modal-title").text("Edit Data Siswa");
             $("#action-button").text("Simpan Perubahan");
-            $("#name").val(data.id);
+            $("#name").val(data.name);
             $("#nis").val(data.nis);
 
             });
@@ -182,7 +183,7 @@
 
         $("#delete-data").click(function(){
             var id_siswa=$(this).data('id');
-            confirm ("Kamu Yakin Bro?");
+            confirm ("Apakah Anda Yakin?");
 
             $.ajax({
             type: "DELETE",
@@ -242,28 +243,32 @@ if ($("#formsiswa").length > 0) {
       var actionType = $('#action-button').val();
       $('#action-button').html('Sending..');
 
-      
+      data= $('#formsiswa').serialize();
+      alert(data);
       $.ajax({
           data: $('#formsiswa').serialize(),
           url: "{{ route('siswa.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.kelas +'</td><td>'+ data.nis +'</td>';
-             siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
+            // alert(data);
+            console.log(data);
+            // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
+            //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
               
-              if (actionType == "tambah-data") {
-                  $('#siswa_id').prepend(post);
-              } else {
-                  $("#siswa_id_" + data.id).replaceWith(post);
-              }
- 
+            //   if (actionType == "tambah-data") {
+            //       $('#siswa_id').prepend(post);
+            //   } else {
+            //       $("#siswa_id_" + data.id).replaceWith(post);
+            //   }
               $('#formsiswa').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
+              location.reload();
           },
           error: function (data) {
+              // alert(data->responseText);
               console.log('Error:', data);
               $('#btn-save').html('Save Changes');
           }

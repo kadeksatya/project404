@@ -27,7 +27,6 @@ class CreateLiterasiTable extends Migration
             $table->foreign('id_siswa')->references('id')->on('siswa')->onDelete('cascade');
             $table->foreign('id_guru')->references('id')->on('guru')->onDelete('cascade');
         });
-        
     }
 
     /**

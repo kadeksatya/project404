@@ -19,10 +19,9 @@ Route::get('/login', 'AuthController@login')->name('login');
 Route::post('/login2', 'AuthController@postlogin')->name('login2');
 Route::get('/logout', 'AuthController@logout')->name('logout')->middleware('auth');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('siswa', 'SiswaController');
-    Route::get('/home', 'HomeController@index')->name('home');
-});
+
+Route::resource('siswa', 'SiswaController');
+Route::get('/home', 'HomeController@index')->name('home');
 
 
 

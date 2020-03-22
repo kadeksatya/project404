@@ -27,12 +27,15 @@ class AuthController extends Controller
             $akun = DB::table('users')->where('username', $request->username)->first();
             //dd($akun);
             if($akun->role =='admin'){
+                session(['akses' => 'admin']);
                 Auth::guard('admin')->LoginUsingId($akun->id);
-                return redirect('/admin')->with('sukses','Anda Berhasil Login');
+                return redirect('/home')->with('sukses','Anda Berhasil Login');
             } else if($akun->role =='guru'){
+                session(['akses' => 'guru']);
                 Auth::guard('guru')->LoginUsingId($akun->id);
                 return redirect('/guru')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->role =='siswa') {
+                session(['akses' => 'siswa']);
               Auth::guard('siswa')->LoginUsingId($akun->id);
               return redirect('/siswa')->with('sukses','Anda Berhasil Login');
             }

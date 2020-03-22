@@ -3,10 +3,10 @@
 @section('content')
 
 @if (!empty(session('sukses')))
-  <div class="alert-success"></div>
+  <div class="alert-sukses"></div>
 @endif
 @if (!empty(session('error')))
-  <div class="alert-errorLogin"></div>
+  <div class="alert-gagal"></div>
 @endif
 
 <div class="login-box">
@@ -16,7 +16,7 @@
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Sistem Letrasi SMAN 4 Kuta Selatan</p>
+        <p class="login-box-msg">Sistem Informasi Letrasi <br> SMAN 2 Kuta Selatan</p>
   
         <form method="POST" action="{{ route('login2') }}">
             @csrf
@@ -64,3 +64,14 @@
     </div>
   </div>
 @endsection
+
+<script>
+  $(".alert-success").show(function(){
+      toastr.success("{{session('sukses')}}");
+      
+  });
+  $(".alert-errorLogin").show(function(){
+      toastr.error("{{session('error')}}");
+      
+  })
+</script>

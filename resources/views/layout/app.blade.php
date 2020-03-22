@@ -189,7 +189,7 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Kadek Restu Satya Wardana
+                                {{ Auth::user()->username }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Setting Profile</a>
@@ -228,10 +228,6 @@
     <script src="{{asset('asset/js/bootstrap.js')}}">
     </script>
     <script src="{{asset('asset/js/scroller.js')}}"></script>
-
-
-
-
     <script src="{{asset('asset/js/main.js')}}"></script>
 
 </body>
