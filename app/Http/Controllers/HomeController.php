@@ -23,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.homepage');
+        if (session('akses')!='admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            return view('dashboard.homepage');
+        }
+        
+        
     }
 }

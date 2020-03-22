@@ -12,7 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    if (session('akses')=='admin') {
+        return redirect('/home');
+    }elseif (session('akses')=='guru') {
+        return redirect('/guru');
+    }elseif (session('akses')=='siswa') {
+        return redirect('/siswa');
+    }else {
+        return view('auth.login');
+    }
+    
 });
 // Auth::routes();
 Route::get('/login', 'AuthController@login')->name('login');

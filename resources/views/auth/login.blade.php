@@ -11,7 +11,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-    <img src="{{asset('asset/img/user.jpeg')}}" class="rounded" width="80" height="80" alt="">
+    <img src="{{asset('asset/img/user.jpeg')}}" class="rounded" width="90" height="90" alt="Logo SMAN2KUTSEL">
     </div>
     <!-- /.login-logo -->
     <div class="card">
