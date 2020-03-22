@@ -121,6 +121,21 @@ class SiswaController extends Controller
         $siswa = Siswa::where('id', $id)->delete();
        return response()->json($siswa);
     }
+    public function gantiPass(Request $request)
+    {
+        $id_siswa = $request->id_siswa;
+        $newPass = $request->password;
+        $siswa = DB::table('siswa')->where('id',$id_siswa)->first();
+        $id_akun = $siswa->id_users;
+        $akun = User::find($id_akun);
+        $akun->password = bcrypt($newPass);
+        $akun->save();
+        // $akun = User::update([
+        //     'password'  => bcrypt($newPass)])
+        //     ->where('id',$id_akun);
+
+        return response()->json($akun);
+    }
 
 
     public function __construct()

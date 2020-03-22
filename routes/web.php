@@ -21,6 +21,7 @@ Route::get('/logout', 'AuthController@logout')->name('logout')->middleware('auth
 
 
 Route::resource('siswa', 'SiswaController');
+Route::post('/siswa/gantipass', 'SiswaController@gantiPass')->name('siswa.gantipass');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
