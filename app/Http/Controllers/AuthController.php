@@ -35,7 +35,13 @@ class AuthController extends Controller
                 Auth::guard('guru')->LoginUsingId($akun->id);
                 return redirect('/guru')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->role =='siswa') {
-                session(['akses' => 'siswa']);
+                
+                $siswa = DB::table('siswa')->where('id_users',$akun->id)->first();
+                session([
+                    'akses' => 'siswa',
+                    'namaUsers'=>$siswa->name,
+                    'IDsiswa'=>$siswa->id,
+                ]);
               Auth::guard('siswa')->LoginUsingId($akun->id);
               return redirect('/siswa')->with('sukses','Anda Berhasil Login');
             }
@@ -51,7 +57,8 @@ class AuthController extends Controller
             Auth::guard('guru')->logout();
         } else if(Auth::guard('siswa')->check()){
             Auth::guard('siswa')->logout();
-        } 
+        }
+        session()->flush(); 
     	return redirect('login')->with('sukses','Anda Telah Logout');
     }
 
