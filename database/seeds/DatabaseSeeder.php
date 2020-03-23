@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'password'  => bcrypt('password123'),
             'role' => 'admin'
-    ]);
+            ]);
     // DB::table('siswa')->insert([
     //     'name' => 'Kadek Satya',
     //     'kelas'  => '10 RPL',
@@ -25,10 +25,17 @@ class DatabaseSeeder extends Seeder
         
        
     // ]);
-    // DB::table('kelas')->insert([
-    //     'kelas'=>'10 RPL'
-       
-    // ]);
+        $dataKelas = array(
+            array('kelas'=>'X MIPA 1'),
+            array('kelas'=>'X MIPA 2'),
+            array('kelas'=>'X MIPA 3'),
+            array('kelas'=>'X MIPA 4'),
+            array('kelas'=>'X MIPA 5'),
+            array('kelas'=>'X MIPA 6'),
+            array('kelas'=>'X IPS 1'),
+            array('kelas'=>'X IPS 2'),
+        );
+        DB::table('kelas')->insert($dataKelas);
 
         
     }

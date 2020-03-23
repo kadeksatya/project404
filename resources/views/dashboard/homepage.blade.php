@@ -3,7 +3,14 @@
 @section('title','Dashboard')
 
 
-@section('content')        
+@section('content')
+
+@if (!empty(session('sukses')))
+  <div class="alert-sukses"></div>
+@endif
+@if (!empty(session('error')))
+  <div class="alert-gagal"></div>
+@endif        
         <div class="container-fluid p-5">
             
            

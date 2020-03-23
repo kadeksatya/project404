@@ -72,141 +72,126 @@
                         <li class="header-menu">
                             <span>Menu</span>
                         </li>
-                        <li class="sidebar-dropdown">
-                            <a href="/home ">
-                                <i class="fa fa-file"></i>
-                                <span class="menu-text">Dashboard</span>
-                                
-                            </a>
-                            
-                        </li>
-                        @if (Auth::user()->role === 'admin')
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-file"></i>
-                                <span class="menu-text">Literasi</span>
-                                
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
+                        @if (session('akses')=='admin')
+                            <li class="sidebar-dropdown">
+                                <a href="/home ">
+                                    <i class="fa fa-home"></i>
+                                    <span class="menu-text">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-file"></i>
+                                    <span class="menu-text">Literasi</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa fa-pen"></i> Add Literasi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-table"></i> Daftar Literasi  
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-users"></i>
+                                    <span class="menu-text">Siswa</span>
                                     
-                                    <li>
-                                        <a href="/letrasi-admin"><i class="fa fa-table"></i> Daftar Literasi
-                                            
-                                        </a>
-                                    </li>
-                                  
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                      
-                            
-                        @endif
-
-                        @if (Auth::user()->role === 'siswa')
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-file"></i>
-                                <span class="menu-text">Literasi</span>
-                                
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                   
-                                    <li>
-                                        <a href="/letrasi-siswa"><i class="fa fa-table"></i> Daftar Literasi
-                                            
-                                        </a>
-                                    </li>
-                                  
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                      
-                            
-                        @endif
-
-                        @if (Auth::user()->role === 'guru')
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-file"></i>
-                                <span class="menu-text">Literasi</span>
-                                
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="letrasi-guru"><i class="fa fa-table"></i> Daftar Literasi
-                                            
-                                        </a>
-                                    </li>
-                                   
-                                  
-                                   
-                                </ul>
-                            </div>
-                        </li>
-                      
-                            
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="/siswa"><i class="fa fa-pen"></i> Add Siswa
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-users"></i> Daftar Siswa
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="far fa-user"></i>
+                                    <span class="menu-text">Guru</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa fa-pen"></i> Add Guru
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-users"></i> Daftar Guru
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="far fa-table"></i>
+                                    <span class="menu-text">Kelas</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa fa-pen"></i> Tambah Kelas
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-table"></i> Daftar Kelas
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        @elseif (session('akses')=='guru')
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-file"></i>
+                                    <span class="menu-text">Literasi</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa fa-pen"></i> Add Literasi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-table"></i> Daftar Literasi  
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        @else
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-file"></i>
+                                    <span class="menu-text">Literasi</span>
+                                </a>
+                                <div class="sidebar-submenu">
+                                    <ul>
+                                        <li>
+                                            <a href="#"><i class="fa fa-pen"></i> Add Literasi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-table"></i> Daftar Literasi  
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         @endif
                         
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-users"></i>
-                                <span class="menu-text">Siswa</span>
-                                
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="/siswa"><i class="fa fa-pen"></i> Add Siswa
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fa fa-users"></i> Daftar Siswa
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="far fa-user"></i>
-                                <span class="menu-text">Guru</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="/guru"><i class="fa fa-pen"></i> Add Guru
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fa fa-users"></i> Daftar Guru
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="far fa-table"></i>
-                                <span class="menu-text">Kelas</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="/kelas"><i class="fa fa-pen"></i> Add Kelas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="fa fa-table"></i> Daftar Kelas
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                         
                         
                        
@@ -238,7 +223,7 @@
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Kadek Restu Satya Wardana
+                                {{ Auth::user()->username }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Setting Profile</a>
@@ -277,12 +262,24 @@
     <script src="{{asset('asset/js/bootstrap.js')}}">
     </script>
     <script src="{{asset('asset/js/scroller.js')}}"></script>
-
-
-
-
     <script src="{{asset('asset/js/main.js')}}"></script>
 
+    <script>
+        $(document).ready(function(){
+            $(".alert-error").show(function(){
+                toastr.error("Username Atau Password Salah !");
+                
+            });
+            $(".alert-sukses").show(function(){
+                toastr.success("{{session('sukses')}}");
+                
+            });
+            $(".alert-gagal").show(function(){
+                toastr.error("{{session('error')}}");
+                
+            })
+        });
+    </script>
 </body>
 
 </html>
