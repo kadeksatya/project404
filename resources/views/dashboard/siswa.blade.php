@@ -43,7 +43,7 @@
                         <tr id="siswa_id_{{$s->id}}">
                             <th scope="row">{{$s->id}}</th>
                             <td>{{$s->name}}</td>
-                            <td>{{$s->kelas}}</td>
+                            <td>{{$s->id_kelas}}</td>
                             <td>{{$s->nis}}</td>
                             <td class="text-center" width="1%">
                                 
@@ -111,7 +111,7 @@
               <br>
               <div class="col-md-12">
                 <div class="input-group">
-                    <select class="custom-select" id="kelas" name="kelas">
+                    <select class="custom-select" id="id_kelas" name="id_kelas">
                        
                         @if ($kelas->count() > 0)
                         <option selected disabled>Pilih Kelas Siswa...</option>
@@ -125,9 +125,7 @@
                         
                         
                       </select>
-                      <div class="input-group-append">
-                        <label class="input-group-text" for="kelas"><i class="fa fa-door-closed"></i></label>
-                      </div>
+                      
               </div>
               <br>
               
@@ -135,7 +133,7 @@
               </div>
               <div class="col-md-12">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan No Induk Siswa">
+                    <input type="text" class="form-control" id="nis" name="nis" required placeholder="Masukkan No Induk Siswa">
                     <div class="input-group-append">    
                       <span class="input-group-text"><i class="fa fa-id-card"></i></span>
                     </div>
@@ -197,41 +195,7 @@
 
         });
     });
-//     if ($("#formsiswa").length > 0) {
-//       $("#formsiswa").validate({
- 
-//      submitHandler: function(form) {
 
-//       var actionType = $('#action-button').val();
-//       $('#action-button').html('Sending..');
-
-      
-//       $.ajax({
-//           data: $('#formsiswa').serialize(),
-//           url: "siswa.store",
-//           type: "POST",
-//           dataType: 'json',
-//           success:function (data){
-//              
-//               if (actionType == "tambah-data") {
-//                   $('#siswa_id').prepend(post);
-//               } else {
-//                   $("#siswa_id_" + data.id).replaceWith(post);
-//               }
- 
-//               $('#formsiswa').trigger("reset");
-//               $('#modalaction').modal('hide');
-//               $("#action-button").text("Tambah Data");
-
-//           },
-//           error: function (data) {
-//               console.log('Error:', data);
-//               $("#action-button").text("Tambah Data");
-//           }
-//         });
-//     }
-//   });
-// }
 
 
 if ($("#formsiswa").length > 0) {
@@ -249,7 +213,7 @@ if ($("#formsiswa").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.kelas +'</td><td>'+ data.nis +'</td>';
+            var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
              siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
               

@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Siswa;
-use App\Kelas;
-use Response;
 
-class SiswaController extends Controller
+class GuruController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +13,7 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $datakelas['kelas']=Kelas::orderBy('id','asc')->get();
-        $data['siswa'] = Siswa::orderBy('id','desc')->paginate(10);
-        return view('dashboard.siswa',$data, $datakelas);
+        return view('dashboard.guru');
     }
 
     /**
@@ -40,16 +34,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-       $id_siswa = $request->id_siswa;
-
-       $siswa = Siswa::updateorCreate(['id' => $id_siswa],
-        [
-            'name' => $request->name,
-            'id_kelas' => $request->id_kelas,
-            'nis' => $request->nis
-        ]);
-
-        return response()->json('error',$siswa);
+        //
     }
 
     /**
@@ -71,10 +56,7 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        $where = array('id' => $id);
-        $siswa = Siswa::where($where)->first();
-
-        return response()->json('error',$siswa);
+        //
     }
 
     /**
@@ -97,14 +79,6 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-       $siswa = Siswa::where('id', $id)->delete();
-       return response()->json('error',$siswa);
+        //
     }
-
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
 }

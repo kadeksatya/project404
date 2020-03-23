@@ -21,8 +21,13 @@ Route::get('/logout', 'AuthController@logout')->name('logout')->middleware('auth
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('siswa', 'SiswaController');
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/admin', 'HomeController@index')->name('home');
 });
+
+Route::resource('/guru','GuruController');
+Route::resource('/kelas','GuruController');
+Route::resource('/letrasi-guru','LetrasiGuruController');
+Route::resource('/letrasi-siswa','LetrasiSiswaController');
 
 
 

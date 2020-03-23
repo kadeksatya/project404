@@ -18,7 +18,7 @@ class TableSiswaCreate extends Migration
             $table->string('gambar')->nullable();
             $table->string('name');
             $table->string('nis')->nullable();
-            $table->integer('id_kelas')->nullable();
+            $table->integer('id_kelas');
             $table->integer('id_users')->nullable();
             
             $table->timestamps();

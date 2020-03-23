@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
     <meta name="description"
         content="website novar">
     <title>{{config('app.name')}} | @yield('title')</title>
@@ -80,6 +80,55 @@
                             </a>
                             
                         </li>
+                        @if (Auth::user()->role === 'admin')
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-file"></i>
+                                <span class="menu-text">Literasi</span>
+                                
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    
+                                    <li>
+                                        <a href="/letrasi-admin"><i class="fa fa-table"></i> Daftar Literasi
+                                            
+                                        </a>
+                                    </li>
+                                  
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                      
+                            
+                        @endif
+
+                        @if (Auth::user()->role === 'siswa')
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-file"></i>
+                                <span class="menu-text">Literasi</span>
+                                
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                   
+                                    <li>
+                                        <a href="/letrasi-siswa"><i class="fa fa-table"></i> Daftar Literasi
+                                            
+                                        </a>
+                                    </li>
+                                  
+                                   
+                                </ul>
+                            </div>
+                        </li>
+                      
+                            
+                        @endif
+
+                        @if (Auth::user()->role === 'guru')
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-file"></i>
@@ -89,20 +138,20 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="fa fa-pen"></i> Add Literasi
+                                        <a href="letrasi-guru"><i class="fa fa-table"></i> Daftar Literasi
                                             
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#"><i class="fa fa-table"></i> Daftar Literasi
-                                            
-                                        </a>
-                                    </li>
+                                   
                                   
                                    
                                 </ul>
                             </div>
                         </li>
+                      
+                            
+                        @endif
+                        
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-users"></i>
@@ -130,7 +179,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="fa fa-pen"></i> Add Guru
+                                        <a href="/guru"><i class="fa fa-pen"></i> Add Guru
                                         </a>
                                     </li>
                                     <li>
@@ -148,7 +197,7 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#"><i class="fa fa-pen"></i> Add Kelas
+                                        <a href="/kelas"><i class="fa fa-pen"></i> Add Kelas
                                         </a>
                                     </li>
                                     <li>

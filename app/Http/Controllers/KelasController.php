@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Kelas;
 class KelasController extends Controller
 {
     /**
@@ -13,7 +13,8 @@ class KelasController extends Controller
      */
     public function index()
     {
-        //
+        $data['kelas']=Kelas::latest()->paginate(5);
+        return view('dashboard.kelas', $data);
     }
 
     /**
