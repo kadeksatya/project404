@@ -16,9 +16,11 @@ class LetrasiAdminController extends Controller
     public function index()
     {
         $data=LetrasiAdmin::all();
+        $dataguru=Guru::all();
+        $datasiswa=Siswa::all();
       
 
-        return view('dashboard.letrasi_admin.admin', compact('data'));
+        return view('dashboard.letrasi_admin.admin', compact('data', 'dataguru','datasiswa'));
     }
 
 

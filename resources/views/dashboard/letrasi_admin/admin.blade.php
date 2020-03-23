@@ -103,18 +103,23 @@
                   <div class="col-md-12">
                     <div class="input-group">
                         <select name="id_siswa" id="id_siswa" class="form-control">
-                         
-                            {{-- @foreach ($item->siswa as $s) --}}
-                            <option value="" selected disabled>Pilih Nama Siswa..</option>
-                            {{-- <option value="{{$s->id}}">{{$s->name}}</option>
-                            @endforeach --}}
-                              
+                         @if ($datasiswa->count() > 0)
+                         <option value="" selected disabled>Pilih Nama Siswa..</option>
+                         @foreach ($datasiswa as $s)
                         
-                              <option value="" selected disabled>Data Siswa Belum Ada</option>
+                         <option value="{{$s->id}}">{{$s->name}}</option>
+                         @endforeach
+                           
+                         @else
+                         <option value="" selected disabled>Data Siswa Belum Ada</option>
+                         @endif
+                          
+                        
+                          
                       
                         </select>
                         <div class="input-group-append">    
-                          <span class="input-group-text"><i class="fa fa-users"></i></span>
+                          <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
                   </div>
                   
@@ -126,14 +131,19 @@
               <div class="col-md-12">
                 <div class="input-group">
                     <select name="id_siswa" id="id_guru" class="form-control">
+                     @if ($dataguru->count() > 0)
+                     <option value="" selected disabled>Pilih Nama Guru..</option>
+                     @foreach ($dataguru as $s)
+                      
+                     <option value="{{$s->id}}">{{$s->name}}</option>
+                     @endforeach
+                       
+                     @else
+                     <option value="" selected disabled>Data Guru Belum Ada</option>
+                     @endif
+                       
                      
-                        {{-- @foreach ($item->dataguru as $s) --}}
-                        <option value="" selected disabled>Pilih Nama Guru..</option>
-                        {{-- <option value="{{$s->id}}">{{$s->name}}</option>
-                        @endforeach --}}
-                          
-                     
-                          <option value="" selected disabled>Data Guru Belum Ada</option>
+                         
                       
                     </select>
                     <div class="input-group-append">    
