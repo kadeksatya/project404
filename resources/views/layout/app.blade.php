@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
         content="website novar">
     <title>{{config('app.name')}} | @yield('title')</title>
@@ -28,16 +28,18 @@
 
 <body>
 
-    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+    <div id="sidebar123" class="page-wrapper default-theme sidebar-bg bg1 toggled">
 
         <nav id="sidebar" class="sidebar-wrapper">
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
                 <div class="sidebar-item sidebar-brand">
-                    <a href="#">Literasi SMAN 2 Kuta Selatan</a>
+                    <a href="#" >Sistem Letrasi </a>
+                   <button id="btn-sidebar" class="toggle-sidebar btn btn-primary" style="display:none"><i class="fa fa-bars"></i></button>
+                   
                 </div>
                 <!-- sidebar-header  -->
-                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                <div  class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
                         <img class="img-responsive img-rounded" src="{{asset('asset/img/user.jpeg')}}"
                             alt="User picture">
@@ -211,10 +213,10 @@
 
                 <div class="menu-pin">
                     <div class="form-group col-md-12">
-                        <a id="toggle-sidebar" class="btn btn-secondary rounded-0" href="#">
+                        
+                        <a class="btn btn-secondary toggle-sidebar" href="#">
                             <span><i class="fa fa-bars"></i></span>
                         </a>
-                       
     
                     </div>
                 </div>
@@ -278,8 +280,31 @@
                 toastr.error("{{session('error')}}");
                 
             })
+
+            $("hidebar").click(function(){
+                $("div").addClass("toggled")
+
+            });
+
+       
         });
     </script>
+
+<script>
+$(window).resize(function() {
+  var width = $(window).width();
+  if (width < 600){
+    $("div").removeClass("toggled");
+    $("#btn-sidebar").attr("style","display: ")
+
+  }
+  else
+  {
+    $("div").addClass("toggled");
+  }
+});
+</script>
+
 </body>
 
 </html>
