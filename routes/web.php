@@ -34,7 +34,7 @@ Route::post('/siswa/gantipass', 'SiswaController@gantiPass')->name('siswa.gantip
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/guru','GuruController');
-Route::resource('/kelas','GuruController');
+Route::resource('/kelas','KelasController');
 Route::resource('/letrasi-guru','LetrasiGuruController');
 Route::resource('/letrasi-siswa','LetrasiSiswaController');
 Route::resource('/letrasi-admin','LetrasiAdminController');

@@ -1,85 +1,93 @@
 @extends('layout.app')
 
-@section('title','Kelas')
+@section('title','Daftar Kelas')
 
 
 @section('content')  
 
-<div class="container-fluid p-5">
-    <div class="row">
-        <div class="form-group col-md-12">
-           <h4>Letrasi</h4>
-           <div class="card">
+
+        <!-- Main content -->
+        <section class="content">
+    
+          <!-- Default box -->
+          <div class="card">
             <div class="card-header">
-                
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm">
-                            Jumlah Data <span class="badge badge-light">9</span>
-                          </button>
-                    </div>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm" id="tambah-data">
-                            <i class="fa fa-user mr-2"></i>
-                            Tambah Data Letrasi
-                          </button>
-                    </div>
+              <h3 class="card-title">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">
+                      Jumlah Data <span class="badge badge-light">{{$kelas->count()}}</span>
+                    </button>
+              </div>
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary" id="tambah-data">
+                      <i class="fa fa-user mr-2"></i>
+                      Tambah Data Siswa
+                    </button>
+              </div>
+              </h3>
+    
+              <div class="card-tools">
+               <input type="text" class="form-control" placeholder="Search">
+              </div>
             </div>
             <div class="card-body">
-                <table class="table table-sm table-bordered table-hover ">
-                    <thead class="text-center">
-                      <tr>
-                        <th scope="col">Kode Kelas</th>
-                        <th scope="col">Nama Kelas</th>
+              <table class="table table-sm table-bordered table-hover ">
+                <thead class="text-center">
+                  <tr>
+                    <th scope="col">Kode</th>
+                    <th scope="col">Nama Kelas</th>
+                    
+                    <th scope="col" class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="data-kelas">
+                    @if ($kelas->count() > 0)
+
+                    @foreach ($kelas as $item)
+                    <tr>
+                        <td class="text-center" width="6%">{{$item->id}}</td>
+                        <td>{{$item->kelas}}</td>
                         
-                        <th scope="col" class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="data-kelas">
-                        @if ($kelas->count() > 0)
-
-                        @foreach ($kelas as $item)
-                        <tr>
-                            <td>{{$item->id}}</td>
-                            <td>{{$item->kelas}}</td>
-                            
-                            <td class="text-center" width="1%">
-                                  
-                              <div class="btn-group mr-2" role="group" aria-label="First group">
-                                  <button class="btn btn-danger btn-sm" id="delete-data" data-id=""><i class="fa fa-trash"></i></button>
-                                  <button class="btn btn-primary btn-sm" id="edit-data" data-id=""><i class="fa fa-pen"></i></button>
-                              </div>
-                          
-                      </td>
-                          </tr>
-                        @endforeach
-                       
-                        @else
-                        <tr class="text-center">
-                            <td>Tidak Ada Data Bro</td>
-                          
-                      </td>
-                          </tr>
-                        @endif
-                       
+                        <td class="text-center" width="1%">
+                              
+                          <div class="btn-group mr-2" role="group" aria-label="First group">
+                              <button class="btn btn-danger btn-sm" id="delete-data" data-id=""><i class="fa fa-trash"></i></button>
+                              <button class="btn btn-primary btn-sm" id="edit-data" data-id=""><i class="fa fa-pen"></i></button>
+                          </div>
                       
+                  </td>
+                      </tr>
+                    @endforeach
+                   
+                    @else
+                    <tr class="text-center">
+                        <td>Tidak Ada Data Bro</td>
+                      
+                  </td>
+                      </tr>
+                    @endif
+                   
+                  
 
 
-                     
-                    </tbody>
-                  </table>
-              
-            </div>
-            <div class="card-footer text-muted">
-                <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                      {{$kelas->links()}}
-                    </div>
+                 
+                </tbody>
+              </table>
+            
+          </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  {{$kelas->links()}}
                 </div>
             </div>
+            </div>
+            <!-- /.card-footer-->
           </div>
-        </div>
-    </div>
-</div>
+          <!-- /.card -->
+    
+        </section>
 
 <!-- Modal -->
 <div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
