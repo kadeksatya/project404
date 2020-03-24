@@ -13,7 +13,7 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $data['kelas']=Kelas::latest()->paginate(5);
+        $data['kelas']=Kelas::orderBy('id','asc')->paginate(5);
         return view('dashboard.kelas', $data);
     }
 

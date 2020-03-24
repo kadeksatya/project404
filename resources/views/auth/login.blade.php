@@ -11,7 +11,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-    <img src="{{asset('asset/img/user.jpeg')}}" class="rounded" width="90" height="90" alt="Logo SMAN2KUTSEL">
+    <img src="{{asset('asset/img/logo.png')}}" class="rounded" width="90" height="90" alt="Logo SMAN2KUTSEL">
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -64,14 +64,3 @@
     </div>
   </div>
 @endsection
-
-<script>
-  $(".alert-success").show(function(){
-      toastr.success("{{session('sukses')}}");
-      
-  });
-  $(".alert-errorLogin").show(function(){
-      toastr.error("{{session('error')}}");
-      
-  })
-</script>

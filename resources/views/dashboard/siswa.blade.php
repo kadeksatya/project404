@@ -1,86 +1,94 @@
 @extends('layout.app')
 
-@section('title','Siswa')
+@section('title','Daftar Siswa')
 
 
-@section('content')  
+@section('content')
 
-<div class="container-fluid p-5">
-    <div class="row">
-        <div class="form-group col-md-12">
-           <h4>Siswa</h4>
-           <div class="card">
+
+        <!-- Main content -->
+        <section class="content">
+    
+          <!-- Default box -->
+          <div class="card">
             <div class="card-header">
-                
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm">
-                            Jumlah Data <span class="badge badge-light">{{$siswa->count()}}</span>
-                          </button>
-                    </div>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm" id="tambah-data">
-                            <i class="fa fa-user mr-2"></i>
-                            Tambah Data Siswa
-                          </button>
-                    </div>
+              <h3 class="card-title">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">
+                      Jumlah Data <span class="badge badge-light">{{$siswa->count()}}</span>
+                    </button>
+              </div>
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary" id="tambah-data">
+                      <i class="fa fa-user mr-2"></i>
+                      Tambah Data Siswa
+                    </button>
+              </div>
+              </h3>
+    
+              <div class="card-tools">
+               <input type="text" class="form-control" placeholder="Search">
+              </div>
             </div>
             <div class="card-body">
-                <table class="table table-sm table-bordered table-hover table-responsive">
-                    <thead>
-                      <tr>
-                        {{-- <th scope="col">No</th> --}}
-                        <th scope="col">NISN</th>
-                        <th scope="col">Nama Siswa</th>
-                        <th scope="col">Kelas</th>
-                        <th scope="col" class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="data-siswa">
-                        @if ($siswa->count() > 0)
-                        @foreach ($siswa as $s)
-                        <tr id="siswa_id_{{$s->id}}">
-                            {{-- <th scope="row">{{$s->id}}</th> --}}
-                            <td>{{$s->nis}}</td>
-                            <td>{{$s->name}}</td>
-                            <td>{{$s->kelas}}</td>
-                            <td class="text-center" width="1%">
-                                
-                                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                                        <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$s->id}}" title="Edit Siswa"><i class="fa fa-pen"></i></button>
-                                        <button class="btn btn-info btn-sm edit-password" id="edit-password" data-id="{{$s->id}}" title="Ganti Password"><i class="fa fa-lock"></i></button>
-                                        <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$s->id}}" title="Hapus Siswa"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                
-                            </td>
-                          </tr>
-                          @endforeach
-                        @else
-                        
-                        <tr>
-                            
-                            <td class="text-center" colspan="5">Tidak Ada Data Bro</td>
-                          </tr>
-                        @endif
-
+              <table class="table table-sm table-bordered table-hover table-responsive">
+                  <thead>
+                    <tr>
+                      {{-- <th scope="col">No</th> --}}
+                      <th scope="col">NISN</th>
+                      <th scope="col">Nama Siswa</th>
+                      <th scope="col">Kelas</th>
+                      <th scope="col" class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="data-siswa">
+                      @if ($siswa->count() > 0)
+                      @foreach ($siswa as $s)
+                      <tr id="siswa_id_{{$s->id}}">
+                          {{-- <th scope="row">{{$s->id}}</th> --}}
+                          <td>{{$s->nis}}</td>
+                          <td>{{$s->name}}</td>
+                          <td>{{$s->kelas}}</td>
+                          <td class="text-center" width="1%">
+                              
+                                  <div class="btn-group mr-2" role="group" aria-label="First group">
+                                      <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$s->id}}" title="Edit Siswa"><i class="fa fa-pen"></i></button>
+                                      <button class="btn btn-info btn-sm edit-password" id="edit-password" data-id="{{$s->id}}" title="Ganti Password"><i class="fa fa-lock"></i></button>
+                                      <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$s->id}}" title="Hapus Siswa"><i class="fa fa-trash"></i></button>
+                                  </div>
+                              
+                          </td>
+                        </tr>
+                        @endforeach
+                      @else
                       
+                      <tr>
+                          
+                          <td class="text-center" colspan="5">Tidak Ada Data Bro</td>
+                        </tr>
+                      @endif
+
+                    
 
 
-                     
-                    </tbody>
-                  </table>
-              
-            </div>
-            <div class="card-footer text-muted">
-                <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                      {{$siswa->links()}}
-                    </div>
+                   
+                  </tbody>
+                </table>
+            
+          </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                  {{$siswa->links()}}
                 </div>
             </div>
+            </div>
+            <!-- /.card-footer-->
           </div>
-        </div>
-    </div>
-</div>
+          <!-- /.card -->
+    
+        </section>
 
 <!-- Modal -->
 <div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,6 +114,8 @@
                 </div>
                 
                 </div>
+                <br>
+                <br>
 
                   <div class="col-md-12">
                     <div class="input-group">
@@ -118,7 +128,7 @@
                 </div>
               <br>
               <br>
-              <br>
+
               <div class="col-md-12">
                 <div class="input-group">
                     <select class="custom-select" id="id_kelas" name="id_kelas">
@@ -141,20 +151,7 @@
               
               
               </div>
-<<<<<<< HEAD
-              <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="nis" name="nis" required placeholder="Masukkan No Induk Siswa">
-                    <div class="input-group-append">    
-                      <span class="input-group-text"><i class="fa fa-id-card"></i></span>
-                    </div>
-              </div>
-              
-          </div>
-              
-=======
                             
->>>>>>> 6136d4e15f009e7c1d5c5a2682bdcef0d9a375c4
           </div>
         </div>
         <div class="modal-footer">
@@ -275,15 +272,10 @@ if ($("#formsiswa").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-<<<<<<< HEAD
-            var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
-             siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
-=======
             // alert(data);
             console.log(data);
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
->>>>>>> 6136d4e15f009e7c1d5c5a2682bdcef0d9a375c4
                
               
             //   if (actionType == "tambah-data") {

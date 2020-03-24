@@ -1,29 +1,33 @@
 @extends('layout.app')
 
-@section('title','Letrasi')
+@section('title','Daftar Letrasi Guru')
 
 
 @section('content')  
 
-<div class="container-fluid p-5">
-    <div class="row">
-        <div class="form-group col-md-12">
-           <h4>Letrasi</h4>
-           <div class="card">
-            <div class="card-header">
-                
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm">
-                            Jumlah Data <span class="badge badge-light">{{$literasi->count()}}</span>
-                          </button>
-                    </div>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-primary btn-sm" id="tambah-data">
-                            <i class="fa fa-book mr-2"></i>
-                            Tambah Data Letrasi
-                          </button>
-                    </div>
-            </div>
+<section class="content">
+
+  <!-- Default box -->
+  <div class="card">
+      <div class="card-header">
+          <h3 class="card-title">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary">
+                      Jumlah Data <span class="badge badge-light">{{$literasi->count()}}</span>
+                  </button>
+              </div>
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <button type="button" class="btn btn-primary" id="tambah-data">
+                      <i class="fa fa-user mr-2"></i>
+                      Tambah Data Literasi
+                  </button>
+              </div>
+          </h3>
+
+          <div class="card-tools">
+              <input type="text" class="form-control" placeholder="Search">
+          </div>
+      </div>
             <div class="card-body">
                 <table class="table table-sm table-bordered table-hover ">
                     <thead class="text-center">
@@ -41,7 +45,7 @@
                        @if ($literasi->count() > 0)
                        @foreach ($literasi as $item)
                        <tr class="text-center">
-                        <td>{{$item->id}}</td>
+                        <td width="2%">{{$item->id}}</td>
                         <td>{{$item->id_siswa}}</td>
                         <td>{{$item->judul}}</td>
                         <td>{{$item->tanggal}}</td>
@@ -72,17 +76,20 @@
                   </table>
               
             </div>
-            <div class="card-footer text-muted">
-                <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                      {{-- {{$siswa->links()}} --}}
-                    </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+
                 </div>
             </div>
-          </div>
         </div>
+        <!-- /.card-footer-->
     </div>
-</div>
+    <!-- /.card -->
+
+</section>
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

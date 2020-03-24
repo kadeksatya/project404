@@ -15,7 +15,7 @@
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="{{asset('asset/css/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('asset/css/novar.css')}}">
+  <link rel="stylesheet" href="{{asset('asset/css/adminlte.css')}}">
   <link rel="stylesheet" href="{{asset('asset/css/plugins/toastr/toastr.min.css')}}">
 
 <!-- jQuery -->
@@ -23,11 +23,10 @@
 <!-- Bootstrap 4 -->
 <script src="{{asset('asset/css/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
-<script src="{{asset('asset/js/novar.min.js')}}"></script>
+<script src="{{asset('asset/js/adminlte.min.js')}}"></script>
   <!-- Google Font: Source Sans Pro -->
   <script src="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
-  <link rel="shortcut icon" type="image/png" href="{{asset('asset/img/user.jpeg')}}" />
-  <link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
+  <link rel="shortcut icon" type="image/png" href="{{asset('asset/img/logo.png')}}" />
 
 </head>
 <body class="hold-transition login-page background">
