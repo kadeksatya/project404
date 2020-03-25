@@ -117,10 +117,18 @@
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-cogs mr-2"></i> Setting Akun
-               
-              </a>
+              @if (Auth::user()->role == 'guru')
+                  <a href="/profile-guru/{{session('IDguru')}}" class="dropdown-item">
+                    <i class="fas fa-user mr-2"></i> Profile
+                  </a>
+              @elseif(Auth::user()->role == 'siswa')
+                  <a href="/profile-siswa/{{session('IDsiswa')}}" class="dropdown-item">
+                    <i class="fas fa-user mr-2"></i> Profile
+                  </a>
+              @else
+
+              @endif
+
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-key mr-2"></i> Ganti Password
@@ -172,7 +180,15 @@
             </div>
             <div class="info">
               @if (!empty(session('namaUsers')))
-                <strong><a href="#" class="d-block">{{session('namaUsers')}}</a></strong>
+                <strong>
+                  @if (Auth::user()->role == 'guru')
+                    <a href="/profile-guru/{{session('IDguru')}}" class="d-block">{{session('namaUsers')}}</a>
+                  @elseif(Auth::user()->role == 'siswa')
+                    <a href="/profile-siswa/{{session('IDsiswa')}}" class="d-block">{{session('namaUsers')}}</a>
+                  @else
+                    <a href="#" class="d-block">{{session('namaUsers')}}</a>
+                  @endif
+                </strong>
               @endif
                 <a class="d-block">{{Auth::user()->username}}</a>
             </div>
