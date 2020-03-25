@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Guru;
+use App\User;
+use Response;
 
 class GuruController extends Controller
 {
@@ -13,7 +17,8 @@ class GuruController extends Controller
      */
     public function index()
     {
-        return view('dashboard.guru');
+        $data['guru'] = DB::table('guru')->get();
+        return view('dashboard.guru',$data);
     }
 
     /**
@@ -34,7 +39,27 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id_guru = $request->id_guru;
+        $username = $request->nip;
+        $id_users = $request->id_users;
+        
+        if (empty($id_users)) {
+            $akun = User::updateorCreate([
+                'username' => $username, 
+                'password'  => bcrypt('Guru123'),
+                'role' => 'guru']);
+            
+            $id_users=$akun->id;
+        }
+            // dd($akun);
+        $guru = Guru::updateorCreate(['id' => $id_guru],
+            [
+                'nip' => $request->nip,
+                'name' => $request->name,
+                'id_users' =>$id_users,
+            ]);
+
+            return response()->json($guru);
     }
 
     /**
@@ -56,7 +81,10 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $guru = Guru::where($where)->first();
+
+        return response()->json($guru);
     }
 
     /**
@@ -79,6 +107,27 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        //
+         // hapus akunya dulu
+         $akun = Guru::where('id', $id)->first();
+         $id_akun = $akun->id_users;
+         $guru_akun = User::where('id', $id_akun)->delete();
+         // hapus siswa
+         $guru = Guru::where('id', $id)->delete();
+         return response()->json($guru);
     }
+    public function gantiPass(Request $request)
+    {
+        $id_users = $request->id_user;
+        $newPass = $request->password;
+
+        $akun = User::find($id_users);
+        $akun->password = bcrypt($newPass);
+        $akun->save();
+        // $akun = User::update([
+        //     'password'  => bcrypt($newPass)])
+        //     ->where('id',$id_akun);
+
+        return response()->json($akun);
+    }
+
 }

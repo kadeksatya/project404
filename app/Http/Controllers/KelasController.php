@@ -13,7 +13,7 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $data['kelas']=Kelas::orderBy('id','asc')->paginate(5);
+        $data['kelas']=Kelas::orderBy('id','asc')->paginate(10);
         return view('dashboard.kelas', $data);
     }
 
@@ -36,6 +36,15 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         //
+        $id_kelas = $request->id_kelas;
+        $nama_kelas = $request->kelas;
+
+        $kelas = Kelas::updateorCreate(['id' => $id_kelas],
+            [
+                'kelas' => $nama_kelas,
+            ]);
+
+            return response()->json($kelas);
     }
 
     /**
@@ -58,6 +67,10 @@ class KelasController extends Controller
     public function edit($id)
     {
         //
+        $id_kelas = array('id' => $id);
+        $kelas = Kelas::where($id_kelas)->first();
+
+        return response()->json($kelas);
     }
 
     /**
@@ -81,5 +94,8 @@ class KelasController extends Controller
     public function destroy($id)
     {
         //
+        // hapus siswa
+        $kelas = Kelas::where('id', $id)->delete();
+       return response()->json($kelas);
     }
 }

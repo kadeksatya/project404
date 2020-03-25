@@ -5,7 +5,12 @@
 
 @section('content')  
 
-
+@if (!empty(session('sukses')))
+  <div class="alert-sukses"></div>
+@endif
+@if (!empty(session('error')))
+  <div class="alert-gagal"></div>
+@endif
         <!-- Main content -->
         <section class="content">
     
@@ -14,63 +19,55 @@
             <div class="card-header">
               <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" class="btn btn-md btn-sm btn-primary">
                       Jumlah Data <span class="badge badge-light">{{$kelas->count()}}</span>
                     </button>
               </div>
               <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary" id="tambah-data">
+                  <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
                       <i class="fa fa-user mr-2"></i>
-                      Tambah Data Siswa
+                      Tambah Kelas
                     </button>
               </div>
               </h3>
     
-              <div class="card-tools">
+              {{-- <div class="card-tools">
                <input type="text" class="form-control" placeholder="Search">
-              </div>
+              </div> --}}
             </div>
             <div class="card-body">
-              <table class="table table-sm table-bordered table-hover ">
+              <table id="tabelKLS" class="table table-sm table-bordered table-hover table-responsive">
                 <thead class="text-center">
                   <tr>
-                    <th scope="col">Kode</th>
-                    <th scope="col">Nama Kelas</th>
+                    <th scope="col" class="text-center">No</th>
+                    <th scope="col" class="text-center">Nama Kelas</th>
                     
                     <th scope="col" class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody id="data-kelas">
-                    @if ($kelas->count() > 0)
-
+                    @php
+                        $i = 0;
+                    @endphp
                     @foreach ($kelas as $item)
-                    <tr>
-                        <td class="text-center" width="6%">{{$item->id}}</td>
-                        <td>{{$item->kelas}}</td>
+                    @php
+                        $i++;
+                    @endphp
+                    <tr id="kelas_id_{{$item->id}}">
+                        <td class="text-center" width="6%">{{$i}}</td>
+                        <td class="text-center">{{$item->kelas}}</td>
                         
                         <td class="text-center" width="1%">
                               
                           <div class="btn-group mr-2" role="group" aria-label="First group">
-                              <button class="btn btn-danger btn-sm" id="delete-data" data-id=""><i class="fa fa-trash"></i></button>
-                              <button class="btn btn-primary btn-sm" id="edit-data" data-id=""><i class="fa fa-pen"></i></button>
+                              <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}"><i class="fa fa-trash"></i></button>
+                              <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}"><i class="fa fa-pen"></i></button>
                           </div>
                       
-                  </td>
+                        </td>
                       </tr>
                     @endforeach
-                   
-                    @else
-                    <tr class="text-center">
-                        <td>Tidak Ada Data Bro</td>
-                      
-                  </td>
-                      </tr>
-                    @endif
-                   
-                  
-
-
-                 
+                                      
                 </tbody>
               </table>
             
@@ -100,8 +97,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="formguru" name="formguru">
-              <input type="hidden" name="id_guru" id="id_guru">
+          <form id="formkelas" name="formkelas">
+              <input type="hidden" name="id_kelas" id="id_kelas">
               <div class="row">
                   <div class="col-md-12">
                     <div class="input-group">
@@ -116,7 +113,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary tombolClose">Close</button>
           <button type="sumbit" class="btn btn-primary" id="action-button"></button>
         </div>
         </form>
@@ -125,12 +122,32 @@
   </div>
 
 <script>
+    $(function () {
+      $("#tabelKLS").DataTable({
+        "order": [[0, 'asc']],
+        "columnDefs": [{
+        "targets": 2,
+        "orderable": false,
+        "searching": false,
+        }],
+      });
+    });
+</script>
+<script>
     $(document).ready(function(){
         $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });
+        $(".tombolClose").click(function(event){
+          // alert("weee");
+          $('#formkelas').trigger("reset");
+          // $("#name").val("");
+          // $("#nis").val("");
+          // $("#kelas").val("");
+          $('#modalaction').modal('hide');
+          })
 
         $("#tambah-data").click(function(){
             $("#modalaction").modal("show");
@@ -138,75 +155,85 @@
             $("#action-button").text("Tambah Data");
         });
 
-//         $("#edit-data").click(function(){
-//             var siswa_id=$(this).data('id');
-//             $.get('siswa/'+siswa_id+'/edit',function(data){
-//             $("#modalaction").modal("show");
-//             $(".modal-title").text("Edit Data Siswa");
-//             $("#action-button").text("Simpan Perubahan");
-//             $("#name").val(data.id);
-//             $("#nis").val(data.nis);
+        $(".edit-data").click(function(){
+            var kelas_id=$(this).data('id');
+            $.get('kelas/'+kelas_id+'/edit',function(data){
+            $("#modalaction").modal("show");
+            $(".modal-title").text("Edit Kelas");
+            $("#action-button").text("Simpan Perubahan");
+            $("#id_kelas").val(data.id);
+            $("#kelas").val(data.kelas);
 
-//             });
-//         })
+            });
+        })
 
-//         $("#delete-data").click(function(){
-//             var id_siswa=$(this).data('id');
-//             confirm ("Kamu Yakin Bro?");
-
-//             $.ajax({
-//             type: "DELETE",
-//             url: "siswa/"+id_siswa,
-//             success: function (data) {
-//                 $("#siswa_id_" + id_siswa).remove();
-//             },
-//             error: function (data) {
-//                 console.log('Error:', data);
-//             }
-//         });
-
-//         });
+        $(".delete-data").click(function(){
+            var id_kelas=$(this).data('id');
+            var cek = confirm ("Apakah Anda Yakin?");
+            if (cek == true) {
+              $.ajax({
+              type: "DELETE",
+              url: "kelas/"+id_kelas,
+              success: function (data) {
+                alert("Berhasil");
+                console.log(data);
+                  $("#kelas_id_" + id_kelas).remove();
+                  location.reload();
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+              });
+            } 
+        });
     });
 
 
 
-// if ($("#formsiswa").length > 0) {
-//       $("#formsiswa").validate({
+if ($("#formkelas").length > 0) {
+      $("#formkelas").validate({
  
-//      submitHandler: function(form) {
+     submitHandler: function(form) {
 
-//       var actionType = $('#action-button').val();
-//       $('#action-button').html('Sending..');
+      var actionType = $('#action-button').val();
+      $('#action-button').html('Sending..');
 
-      
-//       $.ajax({
-//           data: $('#formsiswa').serialize(),
-//           url: "{{ route('siswa.store') }}",
-//           type: "POST",
-//           dataType: 'json',
-//           success: function (data) {
-//             var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
-//              siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
+      // data=$('#formkelas').serialize();
+      // alert(data);
+      $.ajax({
+          data: $('#formkelas').serialize(),
+          url: "{{ route('kelas.store') }}",
+          type: "POST",
+          dataType: 'json',
+          
+          success: function (data) {
+            console.log(data);
+            alert("Berhasil");
+            // toastr.success("Berhasil");
+            // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
+            //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
               
-//               if (actionType == "tambah-data") {
-//                   $('#siswa_id').prepend(post);
-//               } else {
-//                   $("#siswa_id_" + data.id).replaceWith(post);
-//               }
+            //   if (actionType == "tambah-data") {
+            //       $('#siswa_id').prepend(post);
+            //   } else {
+            //       $("#siswa_id_" + data.id).replaceWith(post);
+            //   }
  
-//               $('#formsiswa').trigger("reset");
-//               $('#modalaction').modal('hide');
-//               $("#action-button").text("Tambah Data");
-//           },
-//           error: function (data) {
-//               console.log('Error:', data);
-//               $('#btn-save').html('Save Changes');
-//           }
-//       });
-//     }
-//   })
-// }
+              $('#formkelas').trigger("reset");
+              $('#modalaction').modal('hide');
+              $("#action-button").text("Tambah Data");
+              location.reload();
+          },
+          error: function (data) {
+              console.log('Error:', data);
+              alert("Upss.. Ada Error");
+              $('#btn-save').html('Save Changes');
+          }
+      });
+    }
+  })
+}
 </script>
 @endsection
     

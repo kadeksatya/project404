@@ -12,70 +12,59 @@
         <div class="card-header">
             <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-md btn-sm btn-primary">
                         Jumlah Data <span class="badge badge-light">{{$data->count()}}</span>
                     </button>
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-primary" id="tambah-data">
+                    <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
                         <i class="fa fa-user mr-2"></i>
-                        Tambah Data Literasi
+                        Tambah Literasi
                     </button>
                 </div>
             </h3>
 
-            <div class="card-tools">
+            {{-- <div class="card-tools">
                 <input type="text" class="form-control" placeholder="Search">
-            </div>
+            </div> --}}
         </div>
         <div class="card-body">
-            <table class="table table-sm table-bordered table-hover ">
+            <table id="tableLiterasi" class="table table-sm table-bordered table-hover table-responsive">
                 <thead class="text-center">
                     <tr>
-                        <th scope="col">Kode</th>
+                        <th scope="col" class="text-center">No</th>
                         <th scope="col">Nama Siswa</th>
                         <th scope="col">Judul Buku</th>
-                        <th scope="col">Jam</th>
-
+                        <th scope="col">Tgl</th>
+                        <th scope="col">Guru</th>
 
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody id="data-siswa">
-                    @if ($data->count() > 0)
+                    @php
+                        $i = 0;
+                    @endphp
                     @foreach ($data as $item)
-
-                    <tr class="text-center">
-                        <td>{{$item->id}}</td>
-                        <td>{{$item->id_siswa}}</td>
+                    @php
+                        $i++;
+                    @endphp
+                    <tr class="text-center" id="literasi_id_{{$item->id}}">
+                        <td class="text-center" width="6%">{{$i}}</td>
+                        <td>{{$item->siswa}}</td>
                         <td>{{$item->judul}}</td>
                         <td>{{$item->tanggal}}</td>
-
-
-
+                        <td>{{$item->guru}}</td>
                         <td class="text-center" width="1%">
-
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="btn btn-danger btn-sm" id="delete-data" data-id=""><i
-                                        class="fa fa-trash"></i></button>
-                                <button class="btn btn-primary btn-sm" id="edit-data" data-id=""><i
-                                        class="fa fa-pen"></i></button>
+                                <button class="btn btn-info btn-sm view_literasi" id="view_literasi" data-id="{{$item->id}}" title="Ganti Password"><i class="fa fa-lock"></i></button>
+                                <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}" title="Edit Siswa"><i class="fa fa-pen"></i></button>
+                                <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}" title="Hapus Siswa"><i class="fa fa-trash"></i></button>
                             </div>
 
                         </td>
                     </tr>
                     @endforeach
-
-                    @else
-                    <tr>
-                        <td colspan="6">
-                            <p class="alert text-center">Tidak Ada Data Bro</p>
-                        </td>
-                    </tr>
-                    @endif
-
-
-
 
                 </tbody>
             </table>
@@ -226,6 +215,21 @@
     </div>
 </div>
 
+
+<script>
+    $(function () {
+      $("#tableLiterasi").DataTable({
+        "order": [[2, 'asc']],
+        "columnDefs": [{
+        "targets": 4,
+        "orderable": false,
+        "searching": false,
+        }],
+      });
+    });
+  </script>
+  <script>
+    
 <script>
     $(document).ready(function () {
         $.ajaxSetup({

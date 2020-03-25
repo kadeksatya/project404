@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Eloquent;
 
-class LetrasiAdmin extends Model
+class Literasi extends Model
 {
     protected $table='literasi';
     

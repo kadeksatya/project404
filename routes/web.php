@@ -28,15 +28,17 @@ Route::get('/login', 'AuthController@login')->name('login');
 Route::post('/login2', 'AuthController@postlogin')->name('login2');
 Route::get('/logout', 'AuthController@logout')->name('logout')->middleware('auth');
 
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('siswa', 'SiswaController');
 Route::post('/siswa/gantipass', 'SiswaController@gantiPass')->name('siswa.gantipass');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/guru','GuruController');
+Route::post('/guru/gantipass', 'GuruController@gantiPass')->name('guru.gantipass');
+
 Route::resource('/kelas','KelasController');
-Route::resource('/letrasi-guru','LetrasiGuruController');
-Route::resource('/letrasi-siswa','LetrasiSiswaController');
-Route::resource('/letrasi-admin','LetrasiAdminController');
+
+Route::resource('/Literasi-siswa','LiterasiSiswaController');
+Route::resource('/Literasi-admin','LiterasiAdminController');
 
 

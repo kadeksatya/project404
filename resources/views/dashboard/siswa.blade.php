@@ -5,7 +5,12 @@
 
 @section('content')
 
-
+@if (!empty(session('sukses')))
+  <div class="alert-sukses"></div>
+@endif
+@if (!empty(session('error')))
+  <div class="alert-gagal"></div>
+@endif
         <!-- Main content -->
         <section class="content">
     
@@ -14,27 +19,27 @@
             <div class="card-header">
               <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" class="btn btn-md btn-sm btn-primary">
                       Jumlah Data <span class="badge badge-light">{{$siswa->count()}}</span>
                     </button>
               </div>
               <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary" id="tambah-data">
+                  <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
                       <i class="fa fa-user mr-2"></i>
-                      Tambah Data Siswa
+                      Tambah Siswa
                     </button>
               </div>
               </h3>
     
-              <div class="card-tools">
+              {{-- <div class="card-tools">
                <input type="text" class="form-control" placeholder="Search">
-              </div>
+              </div> --}}
             </div>
             <div class="card-body">
-              <table class="table table-sm table-bordered table-hover table-responsive">
+              <table id="tableSiswa" class="table table-sm table-bordered table-hover table-responsive">
                   <thead>
                     <tr>
-                      {{-- <th scope="col">No</th> --}}
+                      <th scope="col" class="text-center">No</th>
                       <th scope="col">NISN</th>
                       <th scope="col">Nama Siswa</th>
                       <th scope="col">Kelas</th>
@@ -42,10 +47,15 @@
                     </tr>
                   </thead>
                   <tbody id="data-siswa">
-                      @if ($siswa->count() > 0)
+                      @php
+                          $i = 0;
+                      @endphp
                       @foreach ($siswa as $s)
+                      @php
+                          $i++;
+                      @endphp
                       <tr id="siswa_id_{{$s->id}}">
-                          {{-- <th scope="row">{{$s->id}}</th> --}}
+                          <td class="text-center" width="6%">{{$i}}</td>
                           <td>{{$s->nis}}</td>
                           <td>{{$s->name}}</td>
                           <td>{{$s->kelas}}</td>
@@ -53,25 +63,13 @@
                               
                                   <div class="btn-group mr-2" role="group" aria-label="First group">
                                       <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$s->id}}" title="Edit Siswa"><i class="fa fa-pen"></i></button>
-                                      <button class="btn btn-info btn-sm edit-password" id="edit-password" data-id="{{$s->id}}" title="Ganti Password"><i class="fa fa-lock"></i></button>
+                                      <button class="btn btn-info btn-sm edit-password" id="edit-password" data-id="{{$s->id_users}}" title="Ganti Password"><i class="fa fa-lock"></i></button>
                                       <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$s->id}}" title="Hapus Siswa"><i class="fa fa-trash"></i></button>
                                   </div>
                               
                           </td>
                         </tr>
                         @endforeach
-                      @else
-                      
-                      <tr>
-                          
-                          <td class="text-center" colspan="5">Tidak Ada Data Bro</td>
-                        </tr>
-                      @endif
-
-                    
-
-
-                   
                   </tbody>
                 </table>
             
@@ -80,7 +78,7 @@
             <div class="card-footer">
               <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  {{$siswa->links()}}
+                  {{-- {{$siswa->links()}} --}}
                 </div>
             </div>
             </div>
@@ -103,6 +101,7 @@
         <div class="modal-body">
           <form id="formsiswa" name="formsiswa">
               <input type="hidden" name="id_siswa" id="id_siswa">
+              <input type="hidden" name="id_users" id="id_users">
               <div class="row">
 
                 <div class="col-md-12">
@@ -131,7 +130,7 @@
 
               <div class="col-md-12">
                 <div class="input-group">
-                    <select class="custom-select" id="id_kelas" name="id_kelas">
+                    <select class="custom-select" id="id_kelas" name="id_kelas" required>
                        
                         @if ($kelas->count() > 0)
                         <option selected disabled>Pilih Kelas Siswa...</option>
@@ -155,7 +154,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary tombolClose" >Close</button>
           <button type="sumbit" class="btn btn-primary" id="action-button"></button>
         </div>
         </form>
@@ -176,7 +175,7 @@
         </div>
         <div class="modal-body">
           <form id="formPass" name="formPass">
-              <input type="hidden" name="id_siswa" id="idUser" value="">
+              <input type="hidden" name="id_user" id="id_user" value="">
               <div class="row">
 
                 <div class="col-md-12">
@@ -191,7 +190,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
           <button type="sumbit" class="btn btn-primary" id="buttonPass"></button>
         </div>
         </form>
@@ -201,12 +200,34 @@
   {{-- end modal --}}
 
 <script>
+  $(function () {
+    $("#tableSiswa").DataTable({
+      "order": [[2, 'asc']],
+      "columnDefs": [{
+      "targets": 4,
+      "orderable": false,
+      "searching": false,
+      }],
+    });
+  });
+</script>
+<script>
+  
     $(document).ready(function(){
         $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
         });
+
+        $(".tombolClose").click(function(event){
+          // alert("weee");
+          $('#formsiswa').trigger("reset");
+          // $("#name").val("");
+          // $("#nis").val("");
+          // $("#kelas").val("");
+          $('#modalaction').modal('hide');
+          })
 
         $("#tambah-data").click(function(){
             $("#modalaction").modal("show");
@@ -215,14 +236,27 @@
         });
 
         $(".edit-data").click(function(){
+          
             var siswa_id=$(this).data('id');
             $.get('siswa/'+siswa_id+'/edit',function(data){
-            $("#modalaction").modal("show");
-            $(".modal-title").text("Edit Data Siswa");
-            $("#action-button").text("Simpan Perubahan");
+              var id_kelas = document.getElementById("id_kelas");
+              var options = id_kelas.options;
+              kelas_id = data.id_kelas;
+              for (var i = 0; i < options.length; i++) {
+                if (options[i].value == kelas_id) {
+                  id_kelas.selectedIndex = i;
+                  }
+              }
+            $("#id_siswa").val(data.id);
+            $("#id_users").val(data.id_users);
             $("#name").val(data.name);
             $("#nis").val(data.nis);
             $("#kelas").val(data.id_kelas);
+
+            $("#modalaction").modal("show");
+            $(".modal-title").text("Edit Data Siswa");
+            $("#action-button").text("Simpan Perubahan");
+            
             });
         })
 
@@ -234,7 +268,10 @@
               type: "DELETE",
               url: "siswa/"+id_siswa,
               success: function (data) {
+                console.log(data);
                   $("#siswa_id_" + id_siswa).remove();
+                  alert("berhasil");
+                  location.reload();
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -250,7 +287,7 @@
             $("#modalPass").modal("show");
             $(".modal-title").text("Ganti Password");
             $("#buttonPass").text("Simpan");
-            $("#idUser").val(siswa_id);
+            $("#id_user").val(siswa_id);
           })
     });
 
@@ -272,8 +309,9 @@ if ($("#formsiswa").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            // alert(data);
+            alert("Berhasil");
             console.log(data);
+            // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
@@ -289,8 +327,9 @@ if ($("#formsiswa").length > 0) {
               location.reload();
           },
           error: function (data) {
-              // alert(data->responseText);
+              alert("Upss! Ada Error");
               console.log('Error:', data);
+              // toastr.error("Upss! Ada Error");
               $('#btn-save').html('Save Changes');
           }
       });
@@ -306,7 +345,7 @@ if ($("#formPass").length > 0) {
       $('#buttonPass').html('Sending..');
 
       data= $('#formPass').serialize();
-      alert(data);
+      // alert(data);
       $.ajax({
           data: $('#formPass').serialize(),
           url: "{{ route('siswa.gantipass') }}",
@@ -315,6 +354,8 @@ if ($("#formPass").length > 0) {
           success: function (data) {
             // alert(data);
             console.log(data);
+            alert('berhasil')
+            // toastr.success("Ubah Password Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
@@ -332,6 +373,8 @@ if ($("#formPass").length > 0) {
           error: function (data) {
               // alert(data->responseText);
               console.log('Error:', data);
+              // toastr.error("Upss! Ada Error");
+              alert("Upss! Ada Error");
               $('#btn-save').html('Save Changes');
           }
       });

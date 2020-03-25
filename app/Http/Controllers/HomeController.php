@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (session('akses')!='admin') {
+        if (Auth::user()->role != 'admin') {
             return redirect('/')->with('error','Anda bukan admin!');
         } else {
             return view('dashboard.homepage');

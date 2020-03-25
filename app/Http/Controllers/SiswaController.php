@@ -24,7 +24,7 @@ class SiswaController extends Controller
 
         $data['siswa'] = DB::table('siswa')
                         ->select('siswa.id','siswa.gambar', 'siswa.name', 'siswa.nis','kelas.kelas','siswa.id_users')
-                        ->leftJoin('kelas','siswa.id_kelas','=','kelas.id')->orderBy('id','desc')->paginate(10);
+                        ->leftJoin('kelas','siswa.id_kelas','=','kelas.id')->orderBy('id','desc')->get();
 
         // dd($data);
         return view('dashboard.siswa',$data, $datakelas);
@@ -50,19 +50,23 @@ class SiswaController extends Controller
     {
        $id_siswa = $request->id_siswa;
        $username = $request->nis;
-
-       $akun = User::updateorCreate([
-           'username' => $username, 
-           'password'  => bcrypt('Siswa123'),
-           'role' => 'siswa']);
-
+       $id_users = $request->id_users;
+        
+        if (empty($id_users)) {
+            $akun = User::updateorCreate([
+                'username' => $username, 
+                'password'  => bcrypt('Siswa123'),
+                'role' => 'siswa']);
+            
+            $id_users=$akun->id;
+        }
         // dd($akun);
        $siswa = Siswa::updateorCreate(['id' => $id_siswa],
         [
             'nis' => $request->nis,
             'name' => $request->name,
-            'id_kelas' => $request->kelas,
-            'id_users' =>$akun->id,
+            'id_kelas' => $request->id_kelas,
+            'id_users' =>$id_users,
         ]);
 
         return response()->json($siswa);
@@ -123,11 +127,11 @@ class SiswaController extends Controller
     }
     public function gantiPass(Request $request)
     {
-        $id_siswa = $request->id_siswa;
+        $id_users = $request->id_user;
         $newPass = $request->password;
-        $siswa = DB::table('siswa')->where('id',$id_siswa)->first();
-        $id_akun = $siswa->id_users;
-        $akun = User::find($id_akun);
+        // $siswa = DB::table('siswa')->where('id',$id_siswa)->first();
+        // $id_akun = $siswa->id_users;
+        $akun = User::find($id_users);
         $akun->password = bcrypt($newPass);
         $akun->save();
         // $akun = User::update([
