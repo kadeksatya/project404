@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Siswa;
 use App\User;
@@ -19,15 +20,19 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $datakelas['kelas']=Kelas::orderBy('id','asc')->get();
-        // $data['siswa'] = Siswa::orderBy('id','desc')->paginate(10);
+        if (Auth::user()->role != 'admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            $datakelas['kelas']=Kelas::orderBy('id','asc')->get();
+            // $data['siswa'] = Siswa::orderBy('id','desc')->paginate(10);
 
-        $data['siswa'] = DB::table('siswa')
-                        ->select('siswa.id','siswa.gambar', 'siswa.name', 'siswa.nis','kelas.kelas','siswa.id_users')
-                        ->leftJoin('kelas','siswa.id_kelas','=','kelas.id')->orderBy('id','desc')->get();
+            $data['siswa'] = DB::table('siswa')
+                            ->select('siswa.id','siswa.gambar', 'siswa.name', 'siswa.nis','kelas.kelas','siswa.id_users')
+                            ->leftJoin('kelas','siswa.id_kelas','=','kelas.id')->orderBy('id','desc')->get();
 
-        // dd($data);
-        return view('dashboard.siswa',$data, $datakelas);
+            // dd($data);
+            return view('dashboard.siswa',$data, $datakelas);
+        }
     }
 
     /**

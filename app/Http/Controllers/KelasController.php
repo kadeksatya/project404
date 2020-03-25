@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Kelas;
 class KelasController extends Controller
 {
@@ -13,8 +14,12 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $data['kelas']=Kelas::orderBy('id','asc')->paginate(10);
-        return view('dashboard.kelas', $data);
+        if (Auth::user()->role != 'admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            $data['kelas']=Kelas::orderBy('id','asc')->paginate(10);
+            return view('dashboard.kelas', $data);
+        }
     }
 
     /**

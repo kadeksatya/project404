@@ -10,58 +10,94 @@
 @endif
 @if (!empty(session('error')))
   <div class="alert-gagal"></div>
-@endif        
-        <div class="container-fluid p-5">
-            
-           
-            <hr>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <h3>Themes</h3>
-                    <p>Here are more themes that you can use</p>
-                </div>
+@endif      
+
+<!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-primarys">
+              <div class="inner">
+                <h3>150</h3>
+
+                <p>Literasi Hari ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{$jml_literasi}}</h3>
 
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <a href="#" data-theme="default-theme" class="theme default-theme selected"></a>
-                    <a href="#" data-theme="chiller-theme" class="theme chiller-theme"></a>
-                    <a href="#" data-theme="legacy-theme" class="theme legacy-theme"></a>
-                    <a href="#" data-theme="ice-theme" class="theme ice-theme"></a>
-                    <a href="#" data-theme="cool-theme" class="theme cool-theme"></a>
-                    <a href="#" data-theme="light-theme" class="theme light-theme"></a>
-                </div>
-                <div class="form-group col-md-12">
-                    <p>You can also use background image </p>
-                </div>
-                <div class="form-group col-md-12">
-                    <a href="#" data-bg="bg1" class="theme theme-bg selected"></a>
-                    <a href="#" data-bg="bg2" class="theme theme-bg"></a>
-                    <a href="#" data-bg="bg3" class="theme theme-bg"></a>
-                    <a href="#" data-bg="bg4" class="theme theme-bg"></a>
-                </div>
-                <div class="form-group col-md-12">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="toggle-bg" checked>
-                        <label class="custom-control-label" for="toggle-bg">Background image</label>
-                    </div>
-                </div>
-                <div class="form-group col-md-12">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="toggle-border-radius">
-                        <label class="custom-control-label" for="toggle-border-radius">Border radius</label>
-                    </div>
-                </div>
-
+                <p>Jumlah Literasi</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="/literasi-admin" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{$jml_siswa}}</h3>
 
+                <p>Jumlah Siswa</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="/siswa" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{$jml_guru}}</h3>
 
-            <hr>
-            
+                <p>Jumlah Guru</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="/guru" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{$jml_kelas}}</h3>
+
+                <p>Jumlah Kelas</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-home"></i>
+              </div>
+              <a href="/kelas" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
         </div>
-  
+        <!-- /.row -->
 
-
-
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 @endsection
     

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Guru;
 use App\User;
@@ -17,8 +18,12 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $data['guru'] = DB::table('guru')->get();
-        return view('dashboard.guru',$data);
+        if (Auth::user()->role != 'admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            $data['guru'] = Guru::all();
+            return view('dashboard.guru',$data);
+        }
     }
 
     /**

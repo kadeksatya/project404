@@ -29,6 +29,8 @@ Route::post('/login2', 'AuthController@postlogin')->name('login2');
 Route::get('/logout', 'AuthController@logout')->name('logout')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home-guru', 'HomeController@guru')->name('home.guru');
+Route::get('/home-siswa', 'HomeController@siswa')->name('home.siswa');
 
 Route::resource('siswa', 'SiswaController');
 Route::post('/siswa/gantipass', 'SiswaController@gantiPass')->name('siswa.gantipass');
@@ -38,7 +40,8 @@ Route::post('/guru/gantipass', 'GuruController@gantiPass')->name('guru.gantipass
 
 Route::resource('/kelas','KelasController');
 
-Route::resource('/Literasi-siswa','LiterasiSiswaController');
-Route::resource('/Literasi-admin','LiterasiAdminController');
+Route::resource('/literasi-siswa','LiterasiSiswaController');
+Route::resource('/literasi-admin','LiterasiAdminController');
+Route::resource('/literasi-guru','LiterasiGuruController');
 
 

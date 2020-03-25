@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{asset('asset/css/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{asset('asset/css/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('asset/css/plugins/select2/css/select2.min.css')}}">
 
     
     <!-- jQuery -->
@@ -41,6 +43,8 @@
     <script src="{{asset('asset/css/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
     <!-- SweetAlert2 -->
     <script src="{{asset('asset/css/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('asset/css/plugins/select2/js/select2.full.min.js')}}"></script>
 
 </head>
 
@@ -182,7 +186,7 @@
 
 
               <li class="nav-item has-treeview">
-                <a href="@if(Auth::user()->role === 'admin')  /home @endif @if(Auth::user()->role === 'guru')  /guru @endif @if(Auth::user()->role === 'siswa')  /siswa @endif  "  class="nav-link {{ (request()->is('siswa','guru','home')) ? 'active' : '' }}">
+                <a href="@if(Auth::user()->role === 'admin')  /home @endif @if(Auth::user()->role === 'guru')  /home-guru @endif @if(Auth::user()->role === 'siswa')  /home-siswa @endif  "  class="nav-link {{ (request()->is('home-siswa','home-guru','home')) ? 'active' : '' }}">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
                     Dashboard
@@ -202,28 +206,16 @@
                 </a>
                 <ul class="nav nav-treeview">
                     @if (Auth::user()->role === 'admin')
-                    <li class="nav-item">
-                        <a href="/letrasi-admin" class="nav-link {{ (request()->is('letrasi-admin')) ? 'active' : '' }}">
-                          <i class="fas fa-pen nav-icon"></i>
-                          <p>Tambah Data Literasi</p>
-                        </a>
-                      </li>
                   <li class="nav-item">
-                    <a href="/letrasi-siswa" class="nav-link {{ (request()->is('letrasi-siswa')) ? 'active' : '' }}">
+                    <a href="/literasi-admin" class="nav-link {{ (request()->is('literasi-admin')) ? 'active' : '' }}">
                       <i class="fa fa-users nav-icon"></i>
                       <p>Daftar Literasi Siswa</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/letrasi-guru" class="nav-link {{ (request()->is('letrasi-guru')) ? 'active' : '' }}">
-                      <i class="fa fa-user nav-icon"></i>
-                      <p>Daftar Literasi Guru</p>
                     </a>
                   </li>
                   @endif
                   @if (Auth::user()->role === 'guru')
                   <li class="nav-item">
-                    <a href="/letrasi-siswa" class="nav-link {{ (request()->is('letrasi-siswa')) ? 'active' : '' }}">
+                    <a href="/literasi-guru" class="nav-link {{ (request()->is('literasi-guru')) ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Daftar Literasi</p>
                     </a>
@@ -232,7 +224,7 @@
                   
                   @if (Auth::user()->role === 'siswa')
                   <li class="nav-item">
-                    <a href="/letrasi-siswa" class="nav-link {{ (request()->is('letrasi-siswa')) ? 'active' : '' }}">
+                    <a href="/literasi-siswa" class="nav-link {{ (request()->is('literasi-siswa')) ? 'active' : '' }}">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Daftar Literasi</p>
                     </a>

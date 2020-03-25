@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Literasi;
 use App\Guru;
 use App\Siswa;
 
-class LiterasiSiswaController extends Controller
+class LiterasiGuruController extends Controller
 {
     /**
      * Display a listing of the resource.

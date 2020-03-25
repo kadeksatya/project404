@@ -11,6 +11,10 @@ class Literasi extends Model
     
     protected $guarded=[];
 
+    protected $fillable =[
+        'tanggal','judul','halaman','review','ket','id_siswa','id_guru'
+    ];
+
     public function siswa()
     {
         return $this->belongsTo(Siswa::class);

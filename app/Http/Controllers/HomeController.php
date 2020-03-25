@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Guru;
+use App\Siswa;
+use App\Literasi;
+use App\Kelas;
 class HomeController extends Controller
 {
     /**
@@ -27,7 +30,17 @@ class HomeController extends Controller
         if (Auth::user()->role != 'admin') {
             return redirect('/')->with('error','Anda bukan admin!');
         } else {
-            return view('dashboard.homepage');
+            $guru = Guru::all();
+            $jml_guru =count($guru);
+            $siswa = Siswa::all();
+            $jml_siswa =count($siswa);
+            $kelas = Kelas::all();
+            $jml_kelas =count($kelas);
+            $literasi = Literasi::all();
+            $jml_literasi =count($literasi);
+
+            // dd($jml_guru,$jml_siswa,$jml_kelas,$jml_literasi);
+            return view('dashboard.homepage',compact('jml_guru', 'jml_siswa','jml_kelas','jml_literasi'));
         }
         
     }

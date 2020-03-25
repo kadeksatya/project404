@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Literasi;
 use App\Siswa;
 use App\Guru;
@@ -15,12 +17,22 @@ class LiterasiAdminController extends Controller
      */
     public function index()
     {
-        $data=LetrasiAdmin::all();
-        $dataguru=Guru::all();
-        $datasiswa=Siswa::all();
-      
+        if (Auth::user()->role != 'admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            $data=Literasi::all();
+            $dataguru=Guru::all();
+            $datasiswa=Siswa::all();
 
-        return view('dashboard.letrasi_admin.admin', compact('data', 'dataguru','datasiswa'));
+            $data = DB::table('literasi')
+                            ->select('literasi.id','literasi.tanggal','literasi.judul', 'literasi.halaman', 'literasi.review','literasi.ket','siswa.name as siswa','kelas.kelas','guru.name as guru')
+                            ->leftJoin('siswa','siswa.id','=','literasi.id_siswa')
+                            ->leftJoin('kelas','kelas.id','=','siswa.id_kelas')
+                            ->leftJoin('guru','guru.id','=','literasi.id_guru')
+                            ->orderBy('tanggal','desc')->get();
+            // dd($data);
+            return view('dashboard.letrasi_admin.admin', compact('data', 'dataguru','datasiswa'));
+        }
     }
 
 
@@ -44,6 +56,27 @@ class LiterasiAdminController extends Controller
     public function store(Request $request)
     {
         //
+        $id_siswa = $request->id_siswa;
+        $id_guru = $request->id_guru;
+        $judulbuku = $request->judulbuku;
+        $halaman = $request->halaman;
+        $review = $request->review;
+        $ket = $request->ket;
+        $id_letrasi = $request->id_letrasi;
+
+            // dd($akun);
+        $Literasi = Literasi::updateorCreate(['id' => $id_letrasi],
+            [
+                'tanggal' => now(),
+                'judul' => $judulbuku,
+                'halaman' =>$halaman,
+                'review' =>$review,
+                'ket' =>$ket,
+                'id_siswa' =>$id_siswa,
+                'id_guru' =>$id_guru,
+            ]);
+
+            return response()->json($Literasi);
     }
 
     /**
@@ -54,7 +87,14 @@ class LiterasiAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $dataLiterasi = DB::table('literasi')
+                        ->select('literasi.id','literasi.tanggal','literasi.judul', 'literasi.halaman', 'literasi.review','literasi.ket','siswa.name as siswa','kelas.kelas','guru.name as guru')
+                        ->leftJoin('siswa','siswa.id','=','literasi.id_siswa')
+                        ->leftJoin('kelas','kelas.id','=','siswa.id_kelas')
+                        ->leftJoin('guru','guru.id','=','literasi.id_guru')
+                        ->where('literasi.id',$id)->first();
+
+        return response()->json($dataLiterasi);
     }
 
     /**
@@ -66,6 +106,10 @@ class LiterasiAdminController extends Controller
     public function edit($id)
     {
         //
+        $where = array('id' => $id);
+        $literasi = Literasi::where($where)->first();
+
+        return response()->json($literasi);
     }
 
     /**
@@ -88,6 +132,7 @@ class LiterasiAdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $literasi = Literasi::where('id', $id)->delete();
+         return response()->json($literasi);
     }
 }
