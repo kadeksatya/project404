@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-8">
+            <div class="col-md-8">
               <div class="icheck-primary">
                 <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                 <label for="remember">
@@ -51,8 +51,8 @@
               </div>
             </div>
             <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block alert-success">Sign In</button>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-block alert-success">Masuk</button>
             </div>
             <!-- /.col -->
           </div>

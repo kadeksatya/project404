@@ -15,9 +15,9 @@ Route::get('/', function () {
     if (session('akses')=='admin') {
         return redirect('/home');
     }elseif (session('akses')=='guru') {
-        return redirect('/guru');
+        return redirect('/home-guru');
     }elseif (session('akses')=='siswa') {
-        return redirect('/siswa');
+        return redirect('/home-siswa');
     }else {
         return view('auth.login');
     }
@@ -44,4 +44,12 @@ Route::resource('/literasi-siswa','LiterasiSiswaController');
 Route::resource('/literasi-admin','LiterasiAdminController');
 Route::resource('/literasi-guru','LiterasiGuruController');
 
+Route::get('/profile-guru/{id}','ProfileController@guru')->name('guru.profile');
+Route::post('/profile-guru','ProfileController@updateGuru')->name('guru.profileUpdate');
+Route::post('/password-guru','ProfileController@passGuru')->name('guru.password');
+Route::post('/foto-guru','ProfileController@fotoGuru')->name('guru.foto');
 
+Route::get('/profile-siswa/{id}','ProfileController@siswa')->name('siswa.profile');
+Route::post('/profile-siswa','ProfileController@updateSiswa')->name('siswa.profileUpdate');
+Route::post('/password-siswa','ProfileController@passSiswa')->name('siswa.password');
+Route::post('/foto-siswa','ProfileController@fotoSiswa')->name('siswa.foto');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Literasi;
 use App\Guru;
 use App\Siswa;
@@ -17,9 +18,19 @@ class LiterasiSiswaController extends Controller
      */
     public function index()
     {
-        $dataguru['guru']=Guru::all();
-        $data['siswa']=Literasi::latest()->paginate(5);
-        return view('dashboard.letrasi_siswa.siswa',$data,$dataguru);
+        $id_users= session('IDsiswa');
+        $dataguru=Guru::all();
+        // $data['siswa']=Literasi::where('id_users',$id_users)->get();
+        $data = DB::table('literasi')
+                ->select('literasi.id','literasi.tanggal','literasi.judul', 'literasi.halaman', 'literasi.review','literasi.ket','siswa.name as siswa','kelas.kelas','guru.name as guru')
+                ->leftJoin('siswa','siswa.id','=','literasi.id_siswa')
+                ->leftJoin('kelas','kelas.id','=','siswa.id_kelas')
+                ->leftJoin('guru','guru.id','=','literasi.id_guru')
+                ->where('id_siswa',$id_users)
+                ->orderBy('tanggal','desc')->get();
+        $jml = count($data);
+        // dd( $jml,$data);
+        return view('siswa.letrasi_siswa.siswa',compact('data','jml','dataguru'));
     }
 
     /**
@@ -40,7 +51,27 @@ class LiterasiSiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id_siswa = session('IDsiswa');
+        $id_guru = $request->id_guru;
+        $judulbuku = $request->judulbuku;
+        $halaman = $request->halaman;
+        $review = $request->review;
+        $ket = $request->ket;
+        $id_letrasi = $request->id_letrasi;
+
+            // dd($akun);
+        $Literasi = Literasi::updateorCreate(['id' => $id_letrasi],
+            [
+                'tanggal' => now(),
+                'judul' => $judulbuku,
+                'halaman' =>$halaman,
+                'review' =>$review,
+                'ket' =>$ket,
+                'id_siswa' =>$id_siswa,
+                'id_guru' =>$id_guru,
+            ]);
+
+            return response()->json($Literasi);
     }
 
     /**
@@ -51,7 +82,14 @@ class LiterasiSiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $dataLiterasi = DB::table('literasi')
+                        ->select('literasi.id','literasi.tanggal','literasi.judul', 'literasi.halaman', 'literasi.review','literasi.ket','siswa.name as siswa','kelas.kelas','guru.name as guru')
+                        ->leftJoin('siswa','siswa.id','=','literasi.id_siswa')
+                        ->leftJoin('kelas','kelas.id','=','siswa.id_kelas')
+                        ->leftJoin('guru','guru.id','=','literasi.id_guru')
+                        ->where('literasi.id',$id)->first();
+
+        return response()->json($dataLiterasi);
     }
 
     /**
@@ -62,7 +100,10 @@ class LiterasiSiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $literasi = Literasi::where($where)->first();
+
+        return response()->json($literasi);
     }
 
     /**
@@ -85,6 +126,7 @@ class LiterasiSiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $literasi = Literasi::where('id', $id)->delete();
+         return response()->json($literasi);
     }
 }

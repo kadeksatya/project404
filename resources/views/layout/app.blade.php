@@ -130,7 +130,7 @@
               <a href="{{ route('logout') }}"
               onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();" class="dropdown-item">
-                <i class="fas fa-arrow-right mr-2"></i> Log Out
+                <i class="fas fa-arrow-right mr-2"></i> Keluar
                 
               </a>
               <form id="logout-form" action="{{ route('logout') }}" method="GET" style="display: none;">

@@ -1,83 +1,82 @@
 @extends('layout.app')
 
-@section('title','Daftar Letrasi Guru')
+@section('title','Daftar Letrasi')
 
 
-@section('content')  
+@section('content')
 
 <section class="content">
+@if (!empty(session('sukses')))
+<div class="alert-sukses"></div>
+@endif
+@if (!empty(session('error')))
+<div class="alert-gagal"></div>
+@endif
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-md btn-sm btn-primary">
+                        Jumlah Data <span class="badge badge-light">{{$data->count()}}</span>
+                    </button>
+                </div>
+                {{-- <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
+                        <i class="fa fa-user mr-2"></i>
+                        Tambah Literasi
+                    </button>
+                </div> --}}
+            </h3>
 
-  <!-- Default box -->
-  <div class="card">
-      <div class="card-header">
-          <h3 class="card-title">
-              <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary">
-                      Jumlah Data <span class="badge badge-light">{{$literasi->count()}}</span>
-                  </button>
-              </div>
-              <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-primary" id="tambah-data">
-                      <i class="fa fa-user mr-2"></i>
-                      Tambah Data Literasi
-                  </button>
-              </div>
-          </h3>
-
-          <div class="card-tools">
-              <input type="text" class="form-control" placeholder="Search">
-          </div>
-      </div>
-            <div class="card-body">
-                <table class="table table-sm table-bordered table-hover ">
-                    <thead class="text-center">
-                      <tr>
-                        <th scope="col">Kode</th>
+            {{-- <div class="card-tools">
+                <input type="text" class="form-control" placeholder="Search">
+            </div> --}}
+        </div>
+        <div class="card-body">
+            <table id="tableLiterasi" class="table table-sm table-bordered table-hover table-responsive">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col">Tgl</th>
                         <th scope="col">Nama Siswa</th>
                         <th scope="col">Judul Buku</th>
-                        <th scope="col">Jam</th>
-                       
-                        
+                        <th scope="col">Kelas</th>
+
                         <th scope="col" class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="data-siswa">
-                       @if ($literasi->count() > 0)
-                       @foreach ($literasi as $item)
-                       <tr class="text-center">
-                        <td width="2%">{{$item->id}}</td>
-                        <td>{{$item->id_siswa}}</td>
+                    </tr>
+                </thead>
+                <tbody id="data-siswa">
+                    @php
+                        $i = 0;
+                    @endphp
+                    @foreach ($data as $item)
+                    @php
+                        $i++;
+                    @endphp
+                    <tr class="text-center" id="literasi_id_{{$item->id}}">
+                        <td class="text-center" width="6%">{{$i}}</td>
+                        <td>{{\Carbon\Carbon::parse($item->tanggal)->format('d/m/Y H:i')}}</td>
+                        <td>{{$item->siswa}}</td>
                         <td>{{$item->judul}}</td>
-                        <td>{{$item->tanggal}}</td>
-                        
-
-                        
+                        <td>{{$item->kelas}}</td>
                         <td class="text-center" width="1%">
-                              
-                          <div class="btn-group mr-2" role="group" aria-label="First group">
-                              <button class="btn btn-danger btn-sm" id="delete-data" data-id=""><i class="fa fa-trash"></i></button>
-                              <button class="btn btn-primary btn-sm" id="edit-data" data-id=""><i class="fa fa-pen"></i></button>
-                          </div>
-                      
-                  </td>
-                      </tr>
-                       @endforeach
-                           
-                       @else
-                       <tr>
-                        <td colspan="6"> <p class="alert text-center">Tidak Ada Data Bro</p></td>
-                      </tr>
-                       @endif
-                      
+                            <div class="btn-group mr-2" role="group" aria-label="First group">
+                                <button class="btn btn-primary btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"> Detail</button>
+                                {{-- <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}" title="Edit Literasi"><i class="fa fa-pen"></i></button>
+                                <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}" title="Hapus Literasi"><i class="fa fa-trash"></i></button> --}}
+                            </div>
 
+                        </td>
+                    </tr>
+                    @endforeach
 
-                     
-                    </tbody>
-                  </table>
-              
-            </div>
-          <!-- /.card-body -->
-          <div class="card-footer">
+                </tbody>
+            </table>
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
             <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
 
@@ -91,99 +90,218 @@
 </section>
 
 
-<!-- Modal -->
-<div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <!-- Modal INPUT DAN EDIT-->
+<div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="formguru" name="formguru">
-              <input type="hidden" name="id_letrasi" id="id_letrasi">
-              <input type="hidden" name="id_guru" id="id_guru" value="{{Auth::user()->id}}">
-              <div class="row">
-                  <div class="col-md-12">
-                    <div class="input-group">
-                        <select name="id_siswa" id="id_siswa" class="form-control">
-                          @if ($siswa->count() > 0)
-                            @foreach ($siswa as $s)
-                            <option value="" selected disabled>Pilih Nama Siswa..</option>
-                            <option value="{{$s->id}}">{{$s->name}}</option>
-                            @endforeach
-                              
-                          @else
-                              <option value="" selected disabled>Data Siswa Belum Ada</option>
-                          @endif
-                        </select>
-                        <div class="input-group-append">    
-                          <span class="input-group-text"><i class="fa fa-users"></i></span>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formliterasi" name="formliterasi">
+                    <input type="hidden" name="id_letrasi" id="id_letrasi">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select name="id_siswa" id="id_siswa" class="form-control select2"  style="width: 80%;">
+                                    @if ($datasiswa->count() > 0)
+                                    <option value="" selected disabled>Pilih Nama Siswa..</option>
+                                    @foreach ($datasiswa as $s)
+
+                                    <option value="{{$s->id}}">{{$s->name}} -kelas</option>
+                                    @endforeach
+
+                                    @else
+                                    <option value="" disabled>Data Siswa Belum Ada</option>
+                                    @endif
+
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-users"></i></span>
+                                </div>
+                            </div>
+
                         </div>
-                  </div>
-                  
-              </div>
-              <br>
-              <br>
-              <br>
-              
-              <div class="col-md-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="judulbuku" name="judulbuku" required placeholder="Masukkan Judul Buku">
-                    <div class="input-group-append">    
-                      <span class="input-group-text"><i class="fa fa-book"></i></span>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <select name="id_guru" id="id_guru" class="form-control select2" style="width: 80%;">
+                                    @if ($dataguru->count() > 0)
+                                    <option value="" selected disabled>Pilih Nama Guru..</option>
+                                    @foreach ($dataguru as $s)
+
+                                    <option value="{{$s->id}}">{{$s->name}}</option>
+                                    @endforeach
+
+                                    @else
+                                    <option value="" disabled>Data Guru Belum Ada</option>
+                                    @endif
+
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="judulbuku" name="judulbuku" required
+                                    placeholder="Masukkan Judul Buku">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-book"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="halaman" name="halaman" required
+                                    placeholder="Masukkan Halaman Buku">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-book-open"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <textarea name="review" id="review" cols="30" rows="2" class="form-control"
+                                    placeholder="Review Buku"></textarea>
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <textarea name="ket" id="ket" cols="30" rows="2" class="form-control"
+                                    placeholder="Keterangan Buku"></textarea>
+                            </div>
+
+                        </div>
                     </div>
-              </div>
-              
-          </div>
-          <br>
-          <br>
-          <br>
-          
-          <div class="col-md-12">
-            <div class="input-group">
-                <input type="text" class="form-control" id="halaman" name="halaman" required placeholder="Masukkan Halaman Buku">
-                <div class="input-group-append">    
-                  <span class="input-group-text"><i class="fa fa-book-open"></i></span>
-                </div>
-          </div>
-          
-      </div>
-      <br>
-          <br>
-          <br>
-          
-          <div class="col-md-12">
-            <div class="input-group">
-               <textarea name="review" id="review" cols="30" rows="2" class="form-control" placeholder="Review Buku"></textarea>
-          </div>
-          
-      </div>
-     <br>
-     <br>
-     <br>
-     <br>
-          
-          <div class="col-md-12">
-            <div class="input-group">
-               <textarea name="ket" id="ket" cols="30" rows="2" class="form-control" placeholder="Keterangan Buku"></textarea>
-          </div>
-          
-      </div>
-          </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary tombolClose" >Close</button>
+                <button type="sumbit" class="btn btn-primary" id="action-button"></button>
+            </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="sumbit" class="btn btn-primary" id="action-button"></button>
-        </div>
-        </form>
-      </div>
     </div>
-  </div>
+</div>
+end modal --}}
+
+<!-- Modal Detail-->
+<div class="modal fade" id="modalaDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body col-md-12">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                    <label for="tanggal" class="col-sm-2 col-form-label">Tanggal</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="tanggal" placeholder="Tanggal" disabled>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="nama_siswa" class="col-sm-2 col-form-label">Nama Siswa</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nama_siswa" placeholder="Name" disabled>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="kelas2" placeholder="Kelas" disabled>
+                    </div>
+                    </div>
+                    {{-- <div class="form-group row">
+                    <label for="nama_siswa" class="col-sm-2 col-form-label">Nama Guru</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nama_guru" placeholder="Nama Guru" disabled>
+                    </div>
+                    </div> --}}
+                    <div class="form-group row">
+                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="judul2" placeholder="Judul Buku" disabled>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="halaman" class="col-sm-2 col-form-label">Halaman</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="halaman2" placeholder="Halaman" disabled>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="review" class="col-sm-2 col-form-label">Review</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" class="form-control" id="review2" placeholder="Review" disabled></textarea>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="ket" class="col-sm-2 col-form-label">Kritik/Saran</label>
+                    <div class="col-sm-10">
+                      <textarea type="text" class="form-control" id="ket2" placeholder="Kritik/Saran" disabled></textarea>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- end modal --}}
 
 <script>
+    $(function () {
+    $('.select2').select2()
+
+      $("#tableLiterasi").DataTable({
+        // "order": [[1, 'desc']],
+        "columnDefs": [{
+        "targets": 5,
+        "orderable": false,
+        "searching": false,
+        }],
+      });
+    });
+  </script>
+
+<script>
+  
     $(document).ready(function(){
         $.ajaxSetup({
         headers: {
@@ -191,81 +309,152 @@
         }
         });
 
+        $(".tombolClose").click(function(event){
+          // alert("weee");
+          $('#formliterasi').trigger("reset");
+          // $("#name").val("");
+          // $("#nis").val("");
+          // $("#kelas").val("");
+          $('#modalaction').modal('hide');
+          })
+
         $("#tambah-data").click(function(){
             $("#modalaction").modal("show");
             $(".modal-title").text("Tambah Data");
             $("#action-button").text("Tambah Data");
         });
 
-//         $("#edit-data").click(function(){
-//             var siswa_id=$(this).data('id');
-//             $.get('siswa/'+siswa_id+'/edit',function(data){
-//             $("#modalaction").modal("show");
-//             $(".modal-title").text("Edit Data Siswa");
-//             $("#action-button").text("Simpan Perubahan");
-//             $("#name").val(data.id);
-//             $("#nis").val(data.nis);
+        $(".detail-data").click(function(){
+            var literasi_id=$(this).data('id');
+            $.get('literasi-guru/'+literasi_id,function(data){
+                console.log(data)
 
-//             });
-//         })
+                $("#tanggal").val(data.tanggal);
+                $("#nama_siswa").val(data.siswa);
+                // $("#nama_guru").val(data.guru);
+                $("#kelas2").val(data.kelas);
+                $("#judul2").val(data.judul);
+                $("#halaman2").val(data.halaman);
+                $("#review2").val(data.review);
+                $("#ket2").val(data.ket);
 
-//         $("#delete-data").click(function(){
-//             var id_siswa=$(this).data('id');
-//             confirm ("Kamu Yakin Bro?");
+                $("#modalaDetail").modal("show");
+                $(".modal-title").text("Detail Literasi");
+            // $("#action-button").text("Simpan Perubahan");
+            });
+        })
 
-//             $.ajax({
-//             type: "DELETE",
-//             url: "siswa/"+id_siswa,
-//             success: function (data) {
-//                 $("#siswa_id_" + id_siswa).remove();
-//             },
-//             error: function (data) {
-//                 console.log('Error:', data);
-//             }
-//         });
+        $(".edit-data").click(function(){
+          
+            var literasi_id=$(this).data('id');
+            $.get('literasi-admin/'+literasi_id+'/edit',function(data){
+              var id_siswa = document.getElementById("id_siswa");
+              var options = id_siswa.options;
+              siswa_id = data.id_siswa;
+              for (var i = 0; i < options.length; i++) {
+                if (options[i].value == siswa_id) {
+                    id_siswa.selectedIndex = i;
+                  }
+              }
+              var id_guru = document.getElementById("id_guru");
+              var options = id_guru.options;
+              guru_id = data.id_guru;
+              for (var i = 0; i < options.length; i++) {
+                if (options[i].value == guru_id) {
+                    id_guru.selectedIndex = i;
+                  }
+              }
+            $("#id_letrasi").val(data.id);
+            $("#id_siswa").val(data.id_siswa);
+            $("#id_guru").val(data.id_guru);
+            $("#judulbuku").val(data.judul);
+            $("#halaman").val(data.halaman);
+            $("#review").val(data.review);
+            $("#ket").val(data.ket);
 
-//         });
+            $("#modalaction").modal("show");
+            $(".modal-title").text("Edit Data Literasi");
+            $("#action-button").text("Simpan Perubahan");
+            
+            });
+        })
+
+        $(".delete-data").click(function(){
+            var id_literasi=$(this).data('id');
+            var cek = confirm ("Apakah Anda Yakin?");
+            if (cek == true) {
+              $.ajax({
+              type: "DELETE",
+              url: "literasi-admin/"+id_literasi,
+              success: function (data) {
+                console.log(data);
+                  $("#literasi_id_" + id_literasi).remove();
+                  alert("berhasil");
+                  location.reload();
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                }
+              });
+            } 
+            
+
+          });
+          $(".edit-password").click(function(){
+            var siswa_id=$(this).data('id');
+            // alert(siswa_id);
+            $("#modalPass").modal("show");
+            $(".modal-title").text("Ganti Password");
+            $("#buttonPass").text("Simpan");
+            $("#id_user").val(siswa_id);
+          })
     });
 
 
 
-// if ($("#formsiswa").length > 0) {
-//       $("#formsiswa").validate({
+if ($("#formliterasi").length > 0) {
+      $("#formliterasi").validate({
  
-//      submitHandler: function(form) {
+     submitHandler: function(form) {
 
-//       var actionType = $('#action-button').val();
-//       $('#action-button').html('Sending..');
+      var actionType = $('#action-button').val();
+      $('#action-button').html('Sending..');
 
-      
-//       $.ajax({
-//           data: $('#formsiswa').serialize(),
-//           url: "{{ route('siswa.store') }}",
-//           type: "POST",
-//           dataType: 'json',
-//           success: function (data) {
-//             var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
-//              siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
+      data= $('#formliterasi').serialize();
+      // alert(data);
+      $.ajax({
+          data: $('#formliterasi').serialize(),
+          url: "{{ route('literasi-admin.store') }}",
+          type: "POST",
+          dataType: 'json',
+          success: function (data) {
+            alert("Berhasil");
+            console.log(data);
+            // toastr.success("Berhasil");
+            // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
+            //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
                
               
-//               if (actionType == "tambah-data") {
-//                   $('#siswa_id').prepend(post);
-//               } else {
-//                   $("#siswa_id_" + data.id).replaceWith(post);
-//               }
- 
-//               $('#formsiswa').trigger("reset");
-//               $('#modalaction').modal('hide');
-//               $("#action-button").text("Tambah Data");
-//           },
-//           error: function (data) {
-//               console.log('Error:', data);
-//               $('#btn-save').html('Save Changes');
-//           }
-//       });
-//     }
-//   })
-// }
+            //   if (actionType == "tambah-data") {
+            //       $('#siswa_id').prepend(post);
+            //   } else {
+            //       $("#siswa_id_" + data.id).replaceWith(post);
+            //   }
+              $('#formliterasi').trigger("reset");
+              $('#modalaction').modal('hide');
+              $("#action-button").text("Tambah Data");
+              location.reload();
+          },
+          error: function (data) {
+              alert("Upss! Ada Error");
+              console.log('Error:', data);
+              // toastr.error("Upss! Ada Error");
+              $('#btn-save').html('Save Changes');
+          }
+      });
+    }
+  })
+}
+
 </script>
 @endsection
-    

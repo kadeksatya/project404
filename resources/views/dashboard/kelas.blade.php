@@ -19,13 +19,13 @@
             <div class="card-header">
               <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-md btn-sm btn-primary">
+                  <button type="button" class="btn btn-md btn-sm btn-info">
                       Jumlah Data <span class="badge badge-light">{{$kelas->count()}}</span>
                     </button>
               </div>
               <div class="btn-group mr-2" role="group" aria-label="First group">
                   <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
-                      <i class="fa fa-user mr-2"></i>
+                      <i class="fa fa-home mr-2"></i>
                       Tambah Kelas
                     </button>
               </div>

@@ -44,4 +44,22 @@ class HomeController extends Controller
         }
         
     }
+    public function guru()
+    {
+        if (Auth::user()->role != 'guru') {
+            return redirect('/')->with('error','Anda bukan guru!');
+        } else {
+            return redirect('/literasi-guru');
+        }
+        
+    }
+    public function siswa()
+    {
+        if (Auth::user()->role != 'siswa') {
+            return redirect('/')->with('error','Anda bukan siswa!');
+        } else {
+            return redirect('/literasi-siswa');
+        }
+        
+    }
 }

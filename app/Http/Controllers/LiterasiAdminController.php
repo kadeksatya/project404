@@ -20,7 +20,7 @@ class LiterasiAdminController extends Controller
         if (Auth::user()->role != 'admin') {
             return redirect('/')->with('error','Anda bukan admin!');
         } else {
-            $data=Literasi::all();
+            // $data=Literasi::all();
             $dataguru=Guru::all();
             $datasiswa=Siswa::all();
 

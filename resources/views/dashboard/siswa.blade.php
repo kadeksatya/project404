@@ -19,7 +19,7 @@
             <div class="card-header">
               <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-md btn-sm btn-primary">
+                  <button type="button" class="btn btn-md btn-sm btn-info">
                       Jumlah Data <span class="badge badge-light">{{$siswa->count()}}</span>
                     </button>
               </div>

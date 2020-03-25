@@ -31,9 +31,14 @@ class AuthController extends Controller
                 Auth::guard('admin')->LoginUsingId($akun->id);
                 return redirect('/home')->with('sukses','Anda Berhasil Login');
             } else if($akun->role =='guru'){
-                session(['akses' => 'guru']);
+                $guru = DB::table('guru')->where('id_users',$akun->id)->first();
+                session([
+                    'akses' => 'guru',
+                    'namaUsers'=>$guru->name,
+                    'IDguru'=>$guru->id,
+                    ]);
                 Auth::guard('guru')->LoginUsingId($akun->id);
-                return redirect('/guru')->with('sukses','Anda Berhasil Login');
+                return redirect('/home-guru')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->role =='siswa') {
                 
                 $siswa = DB::table('siswa')->where('id_users',$akun->id)->first();
@@ -43,7 +48,7 @@ class AuthController extends Controller
                     'IDsiswa'=>$siswa->id,
                 ]);
               Auth::guard('siswa')->LoginUsingId($akun->id);
-              return redirect('/siswa')->with('sukses','Anda Berhasil Login');
+              return redirect('/home-siswa')->with('sukses','Anda Berhasil Login');
             }
     	}
     	return redirect('/login')->with('error','Akun Belum Terdaftar');

@@ -17,13 +17,13 @@
         <div class="card-header">
             <h3 class="card-title">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-md btn-sm btn-primary">
+                    <button type="button" class="btn btn-md btn-sm btn-info">
                         Jumlah Data <span class="badge badge-light">{{$data->count()}}</span>
                     </button>
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
-                        <i class="fa fa-user mr-2"></i>
+                        <i class="fa fa-plus mr-2"></i>
                         Tambah Literasi
                     </button>
                 </div>
@@ -62,7 +62,7 @@
                         <td>{{$item->guru}}</td>
                         <td class="text-center" width="1%">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="btn btn-info btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"><i class="fa fa-info"></i></button>
+                                <button class="btn btn-info btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"><i class="fa fa-eye"></i></button>
                                 <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}" title="Edit Literasi"><i class="fa fa-pen"></i></button>
                                 <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}" title="Hapus Literasi"><i class="fa fa-trash"></i></button>
                             </div>
@@ -277,7 +277,7 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
             </div>
             </form>
         </div>
