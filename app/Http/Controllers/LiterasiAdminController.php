@@ -135,4 +135,23 @@ class LiterasiAdminController extends Controller
          $literasi = Literasi::where('id', $id)->delete();
          return response()->json($literasi);
     }
+    public function today(){
+        if (Auth::user()->role != 'admin') {
+            return redirect('/')->with('error','Anda bukan admin!');
+        } else {
+            // $data=Literasi::all();
+            $dataguru=Guru::all();
+            $datasiswa=Siswa::all();
+
+            $data = DB::table('literasi')
+                            ->select('literasi.id','literasi.tanggal','literasi.judul', 'literasi.halaman', 'literasi.review','literasi.ket','siswa.name as siswa','kelas.kelas','guru.name as guru')
+                            ->leftJoin('siswa','siswa.id','=','literasi.id_siswa')
+                            ->leftJoin('kelas','kelas.id','=','siswa.id_kelas')
+                            ->leftJoin('guru','guru.id','=','literasi.id_guru')
+                            ->whereDate('literasi.created_at', date('Y-m-d'))
+                            ->orderBy('tanggal','desc')->get();
+            // dd($data);
+            return view('dashboard.letrasi_admin.today', compact('data', 'dataguru','datasiswa'));
+        }
+    }
 }

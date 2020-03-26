@@ -42,6 +42,7 @@ Route::resource('/kelas','KelasController');
 
 Route::resource('/literasi-siswa','LiterasiSiswaController');
 Route::resource('/literasi-admin','LiterasiAdminController');
+Route::get('/literasiToday-admin','LiterasiAdminController@today')->name('literasi.today');
 Route::resource('/literasi-guru','LiterasiGuruController');
 
 Route::get('/profile-guru/{id}','ProfileController@guru')->name('guru.profile');

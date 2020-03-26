@@ -221,11 +221,17 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    @if (Auth::user()->role === 'admin')
+                  @if (Auth::user()->role === 'admin')
+                  <li class="nav-item">
+                    <a href="/literasiToday-admin" class="nav-link {{ (request()->is('literasiToday-admin')) ? 'active' : '' }}">
+                      <i class="fa fa-clock nav-icon"></i>
+                      <p>Literasi Hari ini</p>
+                    </a>
+                  </li>
                   <li class="nav-item">
                     <a href="/literasi-admin" class="nav-link {{ (request()->is('literasi-admin')) ? 'active' : '' }}">
                       <i class="fa fa-users nav-icon"></i>
-                      <p>Daftar Literasi Siswa</p>
+                      <p>Daftar Literasi</p>
                     </a>
                   </li>
                   @endif
@@ -246,7 +252,6 @@
                     </a>
                   </li>
                   @endif
-
 
                 </ul>
               </li>
@@ -281,7 +286,6 @@
                       <p>Daftar Kelas</p>
                     </a>
                   </li>
-                  
                   
                 
                 </ul>

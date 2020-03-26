@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title','Daftar Letrasi')
+@section('title','Daftar Literasi')
 
 
 @section('content')
@@ -42,7 +42,7 @@
                         <th scope="col">Nama Siswa</th>
                         <th scope="col">Judul Buku</th>
                         <th scope="col">Guru</th>
-
+                        <th scope="col">Kelas</th>
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -60,6 +60,7 @@
                         <td>{{$item->siswa}}</td>
                         <td>{{$item->judul}}</td>
                         <td>{{$item->guru}}</td>
+                        <td>{{$item->kelas}}</td>
                         <td class="text-center" width="1%">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
                                 <button class="btn btn-info btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"><i class="fa fa-eye"></i></button>
@@ -112,7 +113,7 @@
                                     <option value="" selected disabled>Pilih Nama Siswa..</option>
                                     @foreach ($datasiswa as $s)
 
-                                    <option value="{{$s->id}}">{{$s->name}} -kelas</option>
+                                    <option value="{{$s->id}}">{{$s->name}}</option>
                                     @endforeach
 
                                     @else

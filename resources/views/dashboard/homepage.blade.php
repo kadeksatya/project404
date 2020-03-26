@@ -21,7 +21,7 @@
             <!-- small box -->
             <div class="small-box bg-primarys">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{$jml_literasiToday}}</h3>
 
                 <p>Literasi Hari ini</p>
               </div>

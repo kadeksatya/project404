@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title','Daftar Literasi')
+@section('title','Literasi Hari Ini')
 
 
 @section('content')
@@ -21,12 +21,12 @@
                         Jumlah Data <span class="badge badge-light">{{$data->count()}}</span>
                     </button>
                 </div>
-                {{-- <div class="btn-group mr-2" role="group" aria-label="First group">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-md btn-sm btn-primary" id="tambah-data">
                         <i class="fa fa-user mr-2"></i>
                         Tambah Literasi
                     </button>
-                </div> --}}
+                </div>
             </h3>
 
             {{-- <div class="card-tools">
@@ -39,9 +39,9 @@
                     <tr>
                         <th scope="col" class="text-center">No</th>
                         <th scope="col">Tgl</th>
-                        <th scope="col">Nama Siswa</th>
+                        {{-- <th scope="col">Nama Siswa</th> --}}
                         <th scope="col">Judul Buku</th>
-                        <th scope="col">Kelas</th>
+                        <th scope="col">Guru</th>
 
                         <th scope="col" class="text-center">Action</th>
                     </tr>
@@ -57,14 +57,14 @@
                     <tr class="text-center" id="literasi_id_{{$item->id}}">
                         <td class="text-center" width="6%">{{$i}}</td>
                         <td>{{\Carbon\Carbon::parse($item->tanggal)->format('d/m/Y H:i')}}</td>
-                        <td>{{$item->siswa}}</td>
+                        {{-- <td>{{$item->siswa}}</td> --}}
                         <td>{{$item->judul}}</td>
-                        <td>{{$item->kelas}}</td>
+                        <td>{{$item->guru}}</td>
                         <td class="text-center" width="1%">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="btn btn-primary btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"> Detail</button>
-                                {{-- <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}" title="Edit Literasi"><i class="fa fa-pen"></i></button>
-                                <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}" title="Hapus Literasi"><i class="fa fa-trash"></i></button> --}}
+                                <button class="btn btn-info btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"><i class="fa fa-eye"></i></button>
+                                <button class="btn btn-primary btn-sm edit-data" id="edit-data" data-id="{{$item->id}}" title="Edit Literasi"><i class="fa fa-pen"></i></button>
+                                <button class="btn btn-danger btn-sm delete-data" id="delete-data" data-id="{{$item->id}}" title="Hapus Literasi"><i class="fa fa-trash"></i></button>
                             </div>
 
                         </td>
@@ -90,7 +90,7 @@
 </section>
 
 
-{{-- <!-- Modal INPUT DAN EDIT-->
+<!-- Modal INPUT DAN EDIT-->
 <div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -105,7 +105,7 @@
                 <form id="formliterasi" name="formliterasi">
                     <input type="hidden" name="id_letrasi" id="id_letrasi">
                     <div class="row">
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="input-group">
                                 <select name="id_siswa" id="id_siswa" class="form-control select2"  style="width: 80%;">
                                     @if ($datasiswa->count() > 0)
@@ -125,24 +125,24 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> --}}
                         <br>
-                        <br>
-                        <br>
+                        {{-- <br>
+                        <br> --}}
 
                         <div class="col-md-12">
                             <div class="input-group">
                                 <select name="id_guru" id="id_guru" class="form-control select2" style="width: 80%;">
-                                    @if ($dataguru->count() > 0)
+                                    {{-- @if ($dataguru->count() > 0) --}}
                                     <option value="" selected disabled>Pilih Nama Guru..</option>
-                                    @foreach ($dataguru as $s)
+                                    @foreach ($dataguru as $guru)
 
-                                    <option value="{{$s->id}}">{{$s->name}}</option>
+                                    <option value="{{$guru->id}}">{{$guru->name}}</option>
                                     @endforeach
 
-                                    @else
+                                    {{-- @else
                                     <option value="" disabled>Data Guru Belum Ada</option>
-                                    @endif
+                                    @endif --}}
 
                                 </select>
                                 <div class="input-group-append">
@@ -212,7 +212,7 @@
         </div>
     </div>
 </div>
-end modal --}}
+{{-- end modal --}}
 
 <!-- Modal Detail-->
 <div class="modal fade" id="modalaDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -245,12 +245,12 @@ end modal --}}
                         <input type="text" class="form-control" id="kelas2" placeholder="Kelas" disabled>
                     </div>
                     </div>
-                    {{-- <div class="form-group row">
+                    <div class="form-group row">
                     <label for="nama_siswa" class="col-sm-2 col-form-label">Nama Guru</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="nama_guru" placeholder="Nama Guru" disabled>
                     </div>
-                    </div> --}}
+                    </div>
                     <div class="form-group row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-10">
@@ -272,7 +272,7 @@ end modal --}}
                     <div class="form-group row">
                     <label for="ket" class="col-sm-2 col-form-label">Kritik/Saran</label>
                     <div class="col-sm-10">
-                      <textarea type="text" class="form-control" id="ket2" placeholder="Kritik/Saran" disabled></textarea>
+                        <textarea type="text" class="form-control" id="ket2" placeholder="Kritik/Saran" disabled></textarea>
                     </div>
                     </div>
             </div>
@@ -292,7 +292,7 @@ end modal --}}
       $("#tableLiterasi").DataTable({
         // "order": [[1, 'desc']],
         "columnDefs": [{
-        "targets": 5,
+        "targets": 4,
         "orderable": false,
         "searching": false,
         }],
@@ -326,12 +326,12 @@ end modal --}}
 
         $(".detail-data").click(function(){
             var literasi_id=$(this).data('id');
-            $.get('literasi-guru/'+literasi_id,function(data){
+            $.get('literasi-siswa/'+literasi_id,function(data){
                 console.log(data)
 
                 $("#tanggal").val(data.tanggal);
                 $("#nama_siswa").val(data.siswa);
-                // $("#nama_guru").val(data.guru);
+                $("#nama_guru").val(data.guru);
                 $("#kelas2").val(data.kelas);
                 $("#judul2").val(data.judul);
                 $("#halaman2").val(data.halaman);
@@ -347,15 +347,8 @@ end modal --}}
         $(".edit-data").click(function(){
           
             var literasi_id=$(this).data('id');
-            $.get('literasi-admin/'+literasi_id+'/edit',function(data){
-              var id_siswa = document.getElementById("id_siswa");
-              var options = id_siswa.options;
-              siswa_id = data.id_siswa;
-              for (var i = 0; i < options.length; i++) {
-                if (options[i].value == siswa_id) {
-                    id_siswa.selectedIndex = i;
-                  }
-              }
+            $.get('literasi-siswa/'+literasi_id+'/edit',function(data){
+
               var id_guru = document.getElementById("id_guru");
               var options = id_guru.options;
               guru_id = data.id_guru;
@@ -385,11 +378,10 @@ end modal --}}
             if (cek == true) {
               $.ajax({
               type: "DELETE",
-              url: "literasi-admin/"+id_literasi,
+              url: "literasi-siswa/"+id_literasi,
               success: function (data) {
                 console.log(data);
                   $("#literasi_id_" + id_literasi).remove();
-                  alert("berhasil");
                   toastr.success("Data literasi berhasil dihapus")
                   setTimeout(function() {
                     // Do something after 3 seconds
@@ -429,7 +421,7 @@ if ($("#formliterasi").length > 0) {
       // alert(data);
       $.ajax({
           data: $('#formliterasi').serialize(),
-          url: "{{ route('literasi-admin.store') }}",
+          url: "{{ route('literasi-siswa.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
@@ -448,7 +440,7 @@ if ($("#formliterasi").length > 0) {
               $('#formliterasi').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              toastr.success("Data Siswa berhasil disimpan")
+              toastr.success("Data Literasi berhasil disimpan")
                 setTimeout(function() {
                 // Do something after 3 seconds
                 // This can be direct code, or call to some other function
