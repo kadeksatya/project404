@@ -226,15 +226,22 @@
 
       $(".delete-data").click(function(){
           var id_guru=$(this).data('id');
-          var cek = confirm ("Apakah Anda Yakin?");
-          if (cek == true) {
-            $.ajax({
+            Swal.fire({
+            title: 'Anda Yakin?',
+            text: "Anda akan kehilangan data tersebut!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
             type: "DELETE",
             url: "guru/"+id_guru,
             success: function (data) {
               console.log(data);
                 $("#guru_id_" + id_guru).remove();
-                alert("berhasil");
                 location.reload();
               },
               
@@ -242,7 +249,24 @@
                   console.log('Error:', data);
               }
             });
-          } 
+              Swal.fire(
+                'Sukses!',
+                'Hapus Data Berhasil Dilakukan !',
+                'success'
+              )
+            }
+            else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swal.fire(
+              'Gagal',
+              'Permintaan Hapus Dibatalkan ',
+              'error'
+            )
+          }
+          })
+ 
           
 
         });
