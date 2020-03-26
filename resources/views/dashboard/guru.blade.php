@@ -242,7 +242,12 @@
             success: function (data) {
               console.log(data);
                 $("#guru_id_" + id_guru).remove();
-                location.reload();
+                toastr.success("Data Guru berhasil dihapus")
+                setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
               },
               
               error: function (data) {
@@ -298,7 +303,7 @@ if ($("#formguru").length > 0) {
         type: "POST",
         dataType: 'json',
         success: function (data) {
-          toastr.success("Permintaan Berhasil Bilakukan!")
+          toastr.success("Data Guru berhasil disimpan")
           console.log(data);
           // toastr.success("Berhasil");
           // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -313,7 +318,11 @@ if ($("#formguru").length > 0) {
             $('#formguru').trigger("reset");
             $('#modalaction').modal('hide');
             $("#action-button").text("Tambah Data");
-            // location.reload();
+            setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
         },
         error: function (data) {
            toastr.error("Ada Kesalahan Teknis, Coba Lagi!")
@@ -357,7 +366,11 @@ if ($("#formPass").length > 0) {
             $('#formsiswa').trigger("reset");
             $('#modalaction').modal('hide');
             $("#action-button").text("Tambah Data");
-            location.reload();
+            setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
         },
         error: function (data) {
             // alert(data->responseText);

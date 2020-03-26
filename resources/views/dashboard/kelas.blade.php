@@ -188,7 +188,12 @@
               success: function (data) {
                 console.log(data);
                   $("#kelas_id_" + id_kelas).remove();
-                  location.reload();
+                  toastr.success("Data Kelas Berhasil dihapus")
+                  setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -237,7 +242,7 @@ if ($("#formkelas").length > 0) {
           
           success: function (data) {
             console.log(data);
-            toastr.success("Permintaan Berhasil Bilakukan!")
+            toastr.success("Data Kelas Berhasil disimpan")
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
@@ -252,7 +257,11 @@ if ($("#formkelas").length > 0) {
               $('#formkelas').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
           },
           error: function (data) {
               console.log('Error:', data);

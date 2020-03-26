@@ -390,7 +390,12 @@ end modal --}}
                 console.log(data);
                   $("#literasi_id_" + id_literasi).remove();
                   alert("berhasil");
-                  location.reload();
+                  toastr.success("Data literasi berhasil dihapus")
+                  setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -428,7 +433,7 @@ if ($("#formliterasi").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            alert("Berhasil");
+            // alert("Berhasil");
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -443,7 +448,12 @@ if ($("#formliterasi").length > 0) {
               $('#formliterasi').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              toastr.success("Data Siswa berhasil disimpan")
+                setTimeout(function() {
+                // Do something after 3 seconds
+                // This can be direct code, or call to some other function
+                location.reload();
+                }, 3000);
           },
           error: function (data) {
               alert("Upss! Ada Error");

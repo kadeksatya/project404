@@ -389,8 +389,14 @@
               success: function (data) {
                 console.log(data);
                   $("#literasi_id_" + id_literasi).remove();
-                  alert("berhasil");
-                  location.reload();
+                  toastr.success("Literasi berhasil dihapus")
+                  setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
+                //   window.setTimeout( location.reload(), 5000 ); // 5 seconds
+                //   location.reload().delay(20000);
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -428,7 +434,7 @@ if ($("#formliterasi").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            toastr.success("Permintaan Berhasil Bilakukan!")
+            toastr.success("Literasi berhasil disimpan")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -443,7 +449,11 @@ if ($("#formliterasi").length > 0) {
               $('#formliterasi').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 3000);
           },
           error: function (data) {
               alert("Upss! Ada Error");
