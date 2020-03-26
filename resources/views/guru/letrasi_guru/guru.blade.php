@@ -381,9 +381,21 @@ end modal --}}
 
         $(".delete-data").click(function(){
             var id_literasi=$(this).data('id');
-            var cek = confirm ("Apakah Anda Yakin?");
-            if (cek == true) {
-              $.ajax({
+            
+
+            swal.fire({
+              title: 'Anda Yakin?',
+              text: "Anda akan kehilangan data tersebut!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                $.ajax({
               type: "DELETE",
               url: "literasi-admin/"+id_literasi,
               success: function (data) {
@@ -401,7 +413,24 @@ end modal --}}
                     console.log('Error:', data);
                 }
               });
-            } 
+
+                swal.fire(
+                  'Sukses!',
+                  'Hapus Data Berhasil Dilakukan !',
+                  'success'
+                )
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swal.fire(
+                  'Gagal',
+                  'Permintaan Hapus Dibatalkan ',
+                  'error'
+                )
+              }
+            })  
+
             
 
           });
@@ -434,6 +463,7 @@ if ($("#formliterasi").length > 0) {
           dataType: 'json',
           success: function (data) {
             // alert("Berhasil");
+            toastr.success("Data Berhasil Ditambahkan")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -456,7 +486,7 @@ if ($("#formliterasi").length > 0) {
                 }, 3000);
           },
           error: function (data) {
-              alert("Upss! Ada Error");
+              toastr.error("Terjadi Kesalahan , Coba Lagi !")
               console.log('Error:', data);
               // toastr.error("Upss! Ada Error");
               $('#btn-save').html('Save Changes');

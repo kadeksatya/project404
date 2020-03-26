@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title','Daftar Literasi')
+@section('title','Daftar Letrasi')
 
 
 @section('content')
@@ -42,7 +42,7 @@
                         <th scope="col">Nama Siswa</th>
                         <th scope="col">Judul Buku</th>
                         <th scope="col">Guru</th>
-                        <th scope="col">Kelas</th>
+
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -60,7 +60,6 @@
                         <td>{{$item->siswa}}</td>
                         <td>{{$item->judul}}</td>
                         <td>{{$item->guru}}</td>
-                        <td>{{$item->kelas}}</td>
                         <td class="text-center" width="1%">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
                                 <button class="btn btn-info btn-sm detail-data" id="detail-data" data-id="{{$item->id}}" title="Detail"><i class="fa fa-eye"></i></button>
@@ -113,7 +112,7 @@
                                     <option value="" selected disabled>Pilih Nama Siswa..</option>
                                     @foreach ($datasiswa as $s)
 
-                                    <option value="{{$s->id}}">{{$s->name}}</option>
+                                    <option value="{{$s->id}}">{{$s->name}} -kelas</option>
                                     @endforeach
 
                                     @else
@@ -382,27 +381,52 @@
 
         $(".delete-data").click(function(){
             var id_literasi=$(this).data('id');
-            var cek = confirm ("Apakah Anda Yakin?");
-            if (cek == true) {
-              $.ajax({
+            swal.fire({
+              title: 'Anda Yakin?',
+              text: "Anda akan kehilangan data tersebut!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                  $.ajax({
               type: "DELETE",
               url: "literasi-admin/"+id_literasi,
               success: function (data) {
                 console.log(data);
                   $("#literasi_id_" + id_literasi).remove();
-                  toastr.success("Literasi berhasil dihapus")
-                  setTimeout(function() {
-                    // Do something after 3 seconds
-                    // This can be direct code, or call to some other function
+                  setTimeout(function(){
                     location.reload();
-                    }, 3000);
-                //   window.setTimeout( location.reload(), 5000 ); // 5 seconds
-                //   location.reload().delay(20000);
+                  }, 3000)
+                  
                 },
                 error: function (data) {
                     console.log('Error:', data);
                 }
               });
+
+                swal.fire(
+                  'Sukses!',
+                  'Hapus Data Berhasil Dilakukan !',
+                  'success'
+                )
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swal.fire(
+                  'Gagal',
+                  'Permintaan Hapus Dibatalkan ',
+                  'error'
+                )
+              }
+            })  
+            if (cek == true) {
+            
             } 
             
 
@@ -435,7 +459,7 @@ if ($("#formliterasi").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            toastr.success("Literasi berhasil disimpan")
+            toastr.success("Permintaan Berhasil Dilakukan!")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -450,14 +474,10 @@ if ($("#formliterasi").length > 0) {
               $('#formliterasi').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              setTimeout(function() {
-                    // Do something after 3 seconds
-                    // This can be direct code, or call to some other function
-                    location.reload();
-                    }, 3000);
+              location.reload();
           },
           error: function (data) {
-              alert("Upss! Ada Error");
+              toastr.error("Terjadi Kesalahan, Coba Lagi !")
               console.log('Error:', data);
               // toastr.error("Upss! Ada Error");
               $('#btn-save').html('Save Changes');
