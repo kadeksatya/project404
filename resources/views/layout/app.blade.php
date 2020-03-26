@@ -37,7 +37,7 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('asset/js/demo.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-    <script  scr="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
+    <script  src="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
     <!-- DataTables -->
     <script src="{{asset('asset/css/plugins/datatables/jquery.dataTables.js')}}"></script>
     <script src="{{asset('asset/css/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>

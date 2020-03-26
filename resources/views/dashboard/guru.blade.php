@@ -274,7 +274,7 @@ if ($("#formguru").length > 0) {
         type: "POST",
         dataType: 'json',
         success: function (data) {
-          alert("Berhasil");
+          toastr.success("Data Berhasil Di Update")
           console.log(data);
           // toastr.success("Berhasil");
           // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -289,10 +289,10 @@ if ($("#formguru").length > 0) {
             $('#formguru').trigger("reset");
             $('#modalaction').modal('hide');
             $("#action-button").text("Tambah Data");
-            location.reload();
+            // location.reload();
         },
         error: function (data) {
-            alert("Upss! Ada Error");
+           toastr.error("Ada Kesalahan Teknis, Coba Lagi!")
             console.log('Error:', data);
             // toastr.error("Upss! Ada Error");
             $('#btn-save').html('Save Changes');
@@ -319,7 +319,7 @@ if ($("#formPass").length > 0) {
         success: function (data) {
           // alert(data);
           console.log(data);
-          alert('berhasil')
+         toastr.success("Password Berhasil di Update");
           // toastr.success("Ubah Password Berhasil");
           // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
           //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
