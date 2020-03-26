@@ -262,23 +262,49 @@
 
         $(".delete-data").click(function(){
             var id_siswa=$(this).data('id');
-            var cek = confirm ("Apakah Anda Yakin?");
-            if (cek == true) {
-              $.ajax({
+
+              swal.fire({
+              title: 'Anda Yakin?',
+              text: "Anda akan kehilangan data tersebut!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                $.ajax({
               type: "DELETE",
               url: "siswa/"+id_siswa,
               success: function (data) {
                 console.log(data);
                   $("#siswa_id_" + id_siswa).remove();
-                  alert("berhasil");
                   location.reload();
                 },
                 error: function (data) {
                     console.log('Error:', data);
                 }
               });
-            } 
-            
+
+                swal.fire(
+                  'Sukses!',
+                  'Hapus Data Berhasil Dilakukan !',
+                  'success'
+                )
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swal.fire(
+                  'Gagal',
+                  'Permintaan Hapus Dibatalkan ',
+                  'error'
+                )
+              }
+            })
+
 
           });
           $(".edit-password").click(function(){
@@ -309,7 +335,7 @@ if ($("#formsiswa").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            alert("Berhasil");
+            toastr.success("Permintaan Berhasil Bilakukan!")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -324,10 +350,10 @@ if ($("#formsiswa").length > 0) {
               $('#formsiswa').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              // location.reload();
           },
           error: function (data) {
-              alert("Upss! Ada Error");
+            toastr.error("Ada Kesalahan Teknis, Coba Lagi!")
               console.log('Error:', data);
               // toastr.error("Upss! Ada Error");
               $('#btn-save').html('Save Changes');
@@ -354,7 +380,7 @@ if ($("#formPass").length > 0) {
           success: function (data) {
             // alert(data);
             console.log(data);
-            alert('berhasil')
+            toastr.success("Password Berhasil di Update");
             // toastr.success("Ubah Password Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';

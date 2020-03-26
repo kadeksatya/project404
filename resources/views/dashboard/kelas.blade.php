@@ -169,13 +169,23 @@
 
         $(".delete-data").click(function(){
             var id_kelas=$(this).data('id');
-            var cek = confirm ("Apakah Anda Yakin?");
-            if (cek == true) {
-              $.ajax({
+
+            swal.fire({
+              title: 'Anda Yakin?',
+              text: "Anda akan kehilangan data tersebut!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                $.ajax({
               type: "DELETE",
               url: "kelas/"+id_kelas,
               success: function (data) {
-                alert("Berhasil");
                 console.log(data);
                   $("#kelas_id_" + id_kelas).remove();
                   location.reload();
@@ -184,7 +194,26 @@
                     console.log('Error:', data);
                 }
               });
-            } 
+
+                swal.fire(
+                  'Sukses!',
+                  'Hapus Data Berhasil Dilakukan !',
+                  'success'
+                )
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swal.fire(
+                  'Gagal',
+                  'Permintaan Hapus Dibatalkan ',
+                  'error'
+                )
+              }
+            })  
+
+
+            
         });
     });
 
@@ -208,7 +237,7 @@ if ($("#formkelas").length > 0) {
           
           success: function (data) {
             console.log(data);
-            alert("Berhasil");
+            toastr.success("Permintaan Berhasil Bilakukan!")
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.name +'</td><td>'+ data.id_kelas +'</td><td>'+ data.nis +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
@@ -227,7 +256,7 @@ if ($("#formkelas").length > 0) {
           },
           error: function (data) {
               console.log('Error:', data);
-              alert("Upss.. Ada Error");
+              toastr.error("Ada Kesalahan Teknis, Coba Lagi!")
               $('#btn-save').html('Save Changes');
           }
       });

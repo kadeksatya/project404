@@ -428,7 +428,7 @@ if ($("#formliterasi").length > 0) {
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            alert("Berhasil");
+            toastr.success("Permintaan Berhasil Bilakukan!")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
