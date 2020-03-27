@@ -23,9 +23,13 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
+                  @php
+                      $userIMG=session('userIMG');
+                      // echo($userIMG);
+                  @endphp
                     @if (!empty(session('userIMG')))
                     <img class="profile-user-img img-fluid img-circle"
-                       src="{{asset('asset/img/logo.png')}}"
+                       src="{{asset('/fotoPP/'.$userIMG)}}"
                        alt="User profile picture">
                     
                     @else
@@ -217,20 +221,29 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="formFoto" name="formFoto">
-              <input type="text" name="id_siswa2" id="id_siswa2" value="">
-              <div class="row">
-
-                <div class="col-md-12">
-                  <input type="file" name="foto" id="foto" accept="image/x-png,image/gif,image/jpeg" required>
+          <form method="POST" enctype="multipart/form-data" id="upload_image_form" action="javascript:void(0)" >
+          
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <img id="image_preview_container" src="{{ asset('/fotoPP/image-preview.png') }}"
+                        alt="preview image" style="max-height: 150px;">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="file" name="image" placeholder="Choose image" id="image" accept="image/x-png,image/gif,image/jpeg" required>
+                        <span class="text-danger" id="pesanError"></span>
+                    </div>
+                </div>
                   
-                </div>               
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
-          <button type="sumbit" class="btn btn-primary" id="buttonFoto"></button>
-        </div>
+                  
+                {{-- <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div> --}}
+            </div> 
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+              <button type="sumbit" class="btn btn-primary" id="buttonFoto"></button>
+            </div>    
         </form>
       </div>
     </div>
@@ -315,53 +328,8 @@
             $("#buttonFoto").text("Upload");
             $("#id_siswa2").val(siswa_id);
           })
-
-          $('#buttonFoto').submit(function(evt) {
-                evt.preventDefault();
-                var formData = new FormData(this);
-
-                console.log(formData);
-                $.ajax({
-                type: 'POST',
-                url: "{{ route('siswa.foto') }}",
-                data:formData,
-                cache:false,
-                contentType: false,
-                processData: false,
-                success: function(data) {
-                    // $('#imagedisplay').html("<img src=" + data.url + "" + data.name + ">");
-                    if (data['success']) {
-                      console.log(data);
-                      toastr.success(data['success']);
-                      // $('#formFoto').trigger("reset");
-                      // $('#modalFoto').modal('hide');
-                      // $("#action-button").text("Tambah Data");
-                      // setTimeout(function() {
-                      //   // Do something after 3 seconds
-                      //   // This can be direct code, or call to some other function
-                      //   location.reload();
-                      //   }, 1000);
-                    } else {
-                      console.log(data);
-                      toastr.error(data['error']);
-                      $('#formFoto').trigger("reset");
-                      $('#modalFoto').modal('hide');
-                      $("#buttonFoto").text("Upload");
-                    }
-                },
-                error: function(data) {
-                    // $('#imagedisplay').html("<h2>this file type is not supported</h2>");
-                    // alert(data->responseText);
-                    console.log('Error:', data);
-                    // toastr.error("Upss! Ada Error");
-                    alert("Upss! Ada Error");
-                    $('#buttonFoto').html('Uploads');
-                }
-                });
-            });
+   
     });
-
-
 
 if ($("#formsiswa").length > 0) {
       $("#formsiswa").validate({
@@ -454,58 +422,60 @@ if ($("#formPass").length > 0) {
     }
   })
 }
-// if ($("#formFoto").length > 0) {
-//       $("#formFoto").validate({
- 
-//      submitHandler: function(form) {
 
-//       var actionType = $('#buttonFoto').val();
-//       $('#buttonFoto').html('Sending..');
+</script>
+<script type="text/javascript">
+     
+  $(document).ready(function (e) {
 
-//       // data= $('#formFoto').serialize();
-//       var form = $('#formFoto')[0];
-//       var formData = new FormData(form);
-//       // alert(form);
-//       console.log(form,formData);
-//       $.ajax({
-//           data: $('#formFoto').serialize(),
-//           url: "{{ route('siswa.foto') }}",
-//           type: "POST",
-//           dataType: 'json',
-//           enctype: 'multipart/form-data',
-//           success: function (data) {
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
 
-//             if (data['success']) {
-//               console.log(data);
-//               toastr.success(data['success'])
-//               $('#formFoto').trigger("reset");
-//               $('#modalFoto').modal('hide');
-//               // $("#action-button").text("Tambah Data");
-//               setTimeout(function() {
-//                 // Do something after 3 seconds
-//                 // This can be direct code, or call to some other function
-//                 location.reload();
-//                 }, 1000);
-//             } else {
-//               console.log(data);
-//               toastr.error(data['error'])
-//               $('#formFoto').trigger("reset");
-//               $('#modalFoto').modal('hide');
-//               // $("#action-button").text("Upload");
-//             }
-              
-//           },
-//           error: function (data) {
-//               // alert(data->responseText);
-//               console.log('Error:', data);
-//               // toastr.error("Upss! Ada Error");
-//               alert("Upss! Ada Error");
-//               $('#btn-save').html('Save Changes');
-//           }
-//       });
-//     }
-//   })
-// }
+      $('#image').change(function(){
+        
+          let reader = new FileReader();
+          reader.onload = (e) => { 
+            $('#image_preview_container').attr('src', e.target.result); 
+          }
+          reader.readAsDataURL(this.files[0]); 
+
+      });
+
+      $('#upload_image_form').submit(function(e) {
+
+        var actionType = $('#action-button').val();
+        $('#buttonFoto').html('Sending..');
+          e.preventDefault();
+          var formData = new FormData(this);
+
+          $.ajax({
+              type:'POST',
+              url: "{{ url('/foto-siswa')}}",
+              data: formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              success: (data) => {
+                  this.reset();
+                  toastr.success('Foto berhasil di upload')
+                  // alert('Foto berhasil di upload');
+                  setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 1000);
+              },
+              error: function(data){
+                  toastr.error("Upss! Ada Error");
+                  console.log(data);
+                  console.log(data['responseText'])
+              }
+          });
+      });
+  });
 
 </script>
 @endsection

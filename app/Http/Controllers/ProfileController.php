@@ -37,28 +37,14 @@ class ProfileController extends Controller
     }
     public function updateGuru(Request $request)
     {
-        $id_siswa = $request->id_siswa;
-        $username = $request->nis;
-        $id_users = $request->id_users;
-            
-            if (empty($id_users)) {
-                $akun = User::updateorCreate([
-                    'username' => $username, 
-                    'password'  => bcrypt('Siswa123'),
-                    'role' => 'siswa']);
-                
-                $id_users=$akun->id;
-            }
-            // dd($akun);
-        $siswa = Siswa::updateorCreate(['id' => $id_siswa],
+        $id_guru = $request->id_guru;
+        $Guru = Guru::where('id',$id_guru)->update(
             [
-                'nis' => $request->nis,
+                'nip' => $request->nip,
                 'name' => $request->name,
-                'id_kelas' => $request->id_kelas,
-                'id_users' =>$id_users,
             ]);
 
-            return response()->json($siswa);
+            return response()->json($Guru);
     }
     public function updateSiswa(Request $request)
     {
@@ -115,45 +101,86 @@ class ProfileController extends Controller
     }
     public function fotoGuru(Request $request)
     {
-
-    }
-    public function fotoSiswa(Request $request)
-    {
-        $input=$request->all();
-        $image=$request->iamge;
-        return response()->json($image);
-        if (!empty($request->file('foto'))){
-            $gambar =$request->file('foto');
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+ 
+        if ($files = $request->file('image')) {
+            $gambar =$request->file('image');
             $ext    =$gambar->getClientOriginalExtension();
+            $userName = session('namaUsers');
+            $gambar_name = $userName.".".$ext;
+            $destinationPath = public_path('/fotoPP/'); // upload path
 
-            if ($request->file('foto')->isValid()){
-                $userName = session('namaUsers');
-                $gambar_name = $userName."_".date('YmdHi').".".$ext;
-                $upload_path ='fotoPP/';
-                $filePP = $request->file('foto');
-                // dd($filePP);
-                $filePP->move($upload_path,$gambar_name);
-                $input['profile_pic']    = $gambar_name;
-            }
-            $id_siswa =session('IDsiswa');
-            $cek = Siswa::where('id', $id_siswa)->first();
+            $id_guru =session('IDguru');
+            $cek = Siswa::where('id',$id_guru)->select('gambar')->first();
             if (!empty($cek)) {
                 $oldPic =$cek->gambar;
                 File::delete('fotoPP/'.$oldPic);
             }
-            $siswa = Siswa::where('id',$id_siswa)->update(['gambar' => $input['profile_pic'],]);
+            $gambar->move($destinationPath, $gambar_name);
+            // $image = $request->photo->storeAs('image', $gambar_name);
+            
+           
+            $siswa = Guru::where('id',$id_guru)->update(['gambar' => $gambar_name,]);
+    
+            $profile_pic = Guru::where('id', $id_guru)->first();
+            session([
+                'userIMG' => $profile_pic->gambar,
+              ]);
+            return Response()->json([
+                "success" => true,
+                "image" => $gambar
+            ]);
+ 
+        }
+ 
+        return Response()->json([
+                "success" => false,
+                "image" => ''
+            ]);
+    }
+    public function fotoSiswa(Request $request)
+    {
+        
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+ 
+        if ($files = $request->file('image')) {
+            $gambar =$request->file('image');
+            $ext    =$gambar->getClientOriginalExtension();
+            $userName = session('namaUsers');
+            $gambar_name = $userName.".".$ext;
+            $destinationPath = public_path('/fotoPP/'); // upload path
+
+            $id_siswa =session('IDsiswa');
+            $cek = Siswa::where('id',$id_siswa)->select('gambar')->first();
+            if (!empty($cek)) {
+                $oldPic =$cek->gambar;
+                File::delete('fotoPP/'.$oldPic);
+            }
+            $gambar->move($destinationPath, $gambar_name);
+            // $image = $request->photo->storeAs('image', $gambar_name);
+            
+           
+            $siswa = Siswa::where('id',$id_siswa)->update(['gambar' => $gambar_name,]);
     
             $profile_pic = Siswa::where('id', $id_siswa)->first();
             session([
-                'userIMG' => $profile_pic,
+                'userIMG' => $profile_pic->gambar,
               ]);
-            
-            
-            return response()->json(['success'=>"Foto berhasil di simpan"]);
-            
-        }else {
-            return response()->json(['error'=>"Silahkan Pilih Foto"]);
+            return Response()->json([
+                "success" => true,
+                "image" => $gambar
+            ]);
+ 
         }
+ 
+        return Response()->json([
+                "success" => false,
+                "image" => ''
+            ]);
         
     }
 }

@@ -18,14 +18,17 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-3">
-
+            @php
+                $userIMG=session('userIMG');
+                // echo($userIMG);
+            @endphp
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
                     @if (!empty(session('userIMG')))
                     <img class="profile-user-img img-fluid img-circle"
-                       src="{{asset('asset/img/logo.png')}}"
+                       src="{{asset('/fotoPP/'.$userIMG)}}"
                        alt="User profile picture">
                     
                     @else
@@ -97,7 +100,7 @@
 
                       <div class="form-group row">
                         <div class="col-sm-10">
-                          <button type="button" class="btn btn-secondary" id="edit-profile" data-id="{{$profile->id}}" title="Edit Profile">Edit Profile</button>
+                          <button type="button" class="btn btn-secondary" id="edit-profile" data-id="{{$profile->id}}" data-nip="{{$profile->nip}}" data-name="{{$profile->name}}" title="Edit Profile">Edit Profile</button>
                         </div>
                       </div>
                     {{-- </form> --}}
@@ -115,6 +118,60 @@
   </div>
 
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formsiswa" name="formsiswa" class="form-horizontal">
+            <input type="hidden" name="id_guru" id="id_guru">
+            {{-- <input type="hidden" name="id_users" id="id_users"> --}}
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="tanggal" class="col-sm-2 col-form-label">NIP :</label>
+                  <div class="input-group">
+                        <input type="text" class="form-control" id="nip" name="nip" required placeholder="Masukkan NIP">
+                        <div class="input-group-append">    
+                          <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+                        </div>
+                  </div>
+                </div>
+              </div>
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label for="tanggal" class="col-sm-2 col-form-label">Nama :</label>
+                    <div class="input-group">
+                          <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan Nama Siswa">
+                          <div class="input-group-append">    
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                          </div>
+                    </div>
+                  </div>
+                
+              </div>
+            <br>
+            <br>
+                          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary tombolClose" >Close</button>
+        <button type="sumbit" class="btn btn-primary" id="action-button"></button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- end modal --}}
 
   {{-- modal ganti password --}}
   <div class="modal fade" id="modalPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -151,6 +208,46 @@
     </div>
   </div>
   {{-- end modal --}}
+  
+  {{-- modal ganti foto --}}
+  <div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" enctype="multipart/form-data" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" enctype="multipart/form-data" id="upload_image_form" action="javascript:void(0)" >
+          
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <img id="image_preview_container" src="{{ asset('/fotoPP/image-preview.png') }}"
+                        alt="preview image" style="max-height: 150px;">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="file" name="image" placeholder="Choose image" id="image" accept="image/x-png,image/gif,image/jpeg" required>
+                        <span class="text-danger" id="pesanError"></span>
+                    </div>
+                </div>
+                  
+                  
+                {{-- <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div> --}}
+            </div> 
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+              <button type="sumbit" class="btn btn-primary" id="buttonFoto"></button>
+            </div>    
+        </form>
+      </div>
+    </div>
+  </div>
+  {{-- end modal --}}
 
   <script>
   
@@ -176,30 +273,22 @@
             $("#action-button").text("Tambah Data");
         });
 
-        $("#edit-data").click(function(){
-          
-            var siswa_id=$(this).data('id');
-            $.get('siswa/'+siswa_id+'/edit',function(data){
-              var id_kelas = document.getElementById("id_kelas");
-              var options = id_kelas.options;
-              kelas_id = data.id_kelas;
-              for (var i = 0; i < options.length; i++) {
-                if (options[i].value == kelas_id) {
-                  id_kelas.selectedIndex = i;
-                  }
-              }
-            $("#id_siswa").val(data.id);
-            $("#id_users").val(data.id_users);
-            $("#name").val(data.name);
-            $("#nis").val(data.nis);
-            $("#kelas").val(data.id_kelas);
+        $("#edit-profile").click(function(){
+          var id_guru=$(this).data('id');
+          var nip=$(this).data('nip');
+          var name=$(this).data('name');
+
+            $("#id_guru").val(id_guru);
+            // $("#id_users").val(data.id_users);
+            $("#name").val(name);
+            $("#nip").val(nip);
+            // $("#kelas").val(data.id_kelas);
 
             $("#modalaction").modal("show");
-            $(".modal-title").text("Edit Data Siswa");
+            $(".modal-title").text("Edit Profile");
             $("#action-button").text("Simpan Perubahan");
             
             });
-        })
 
         $(".delete-data").click(function(){
             var id_siswa=$(this).data('id');
@@ -226,15 +315,20 @@
             var siswa_id=$(this).data('id');
             // alert(siswa_id);
             $("#modalPass").modal("show");
-            $(".modal-title").text("Ganti Password");
+            $(".modal-title").text("Ubah Password");
             $("#buttonPass").text("Simpan");
             $("#id_user").val(siswa_id);
           })
+          $("#edit-foto").click(function(){
+            var guru_id=$(this).data('id');
+            // alert(siswa_id);
+            $("#modalFoto").modal("show");
+            $(".modal-title").text("Ubah Foto");
+            $("#buttonFoto").text("Upload");
+            $("#id_guru2").val(guru_id);
+          })
     });
-
-
-
-if ($("#formsiswa").length > 0) {
+    if ($("#formsiswa").length > 0) {
       $("#formsiswa").validate({
  
      submitHandler: function(form) {
@@ -246,11 +340,11 @@ if ($("#formsiswa").length > 0) {
       // alert(data);
       $.ajax({
           data: $('#formsiswa').serialize(),
-          url: "{{ route('siswa.store') }}",
+          url: "{{ route('guru.profileUpdate') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            alert("Berhasil");
+            toastr.success("Data Siswa berhasil disimpan")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -265,7 +359,11 @@ if ($("#formsiswa").length > 0) {
               $('#formsiswa').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 1000);
           },
           error: function (data) {
               alert("Upss! Ada Error");
@@ -289,13 +387,13 @@ if ($("#formPass").length > 0) {
       // alert(data);
       $.ajax({
           data: $('#formPass').serialize(),
-          url: "{{ route('siswa.gantipass') }}",
+          url: "{{ route('guru.password') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
             // alert(data);
             console.log(data);
-            alert('berhasil')
+            toastr.success("Password berhasil diubah")
             // toastr.success("Ubah Password Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
@@ -306,10 +404,9 @@ if ($("#formPass").length > 0) {
             //   } else {
             //       $("#siswa_id_" + data.id).replaceWith(post);
             //   }
-              $('#formsiswa').trigger("reset");
-              $('#modalaction').modal('hide');
+              $('#formPass').trigger("reset");
+              $('#modalPass').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
           },
           error: function (data) {
               // alert(data->responseText);
@@ -322,5 +419,59 @@ if ($("#formPass").length > 0) {
     }
   })
 }
+</script>
+<script type="text/javascript">
+     
+  $(document).ready(function (e) {
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      $('#image').change(function(){
+        
+          let reader = new FileReader();
+          reader.onload = (e) => { 
+            $('#image_preview_container').attr('src', e.target.result); 
+          }
+          reader.readAsDataURL(this.files[0]); 
+
+      });
+
+      $('#upload_image_form').submit(function(e) {
+
+        var actionType = $('#action-button').val();
+        $('#buttonFoto').html('Sending..');
+          e.preventDefault();
+          var formData = new FormData(this);
+
+          $.ajax({
+              type:'POST',
+              url: "{{ url('/foto-guru')}}",
+              data: formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              success: (data) => {
+                  this.reset();
+                  toastr.success('Foto berhasil di upload')
+                  // alert('Foto berhasil di upload');
+                  setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 1000);
+              },
+              error: function(data){
+                  toastr.error("Upss! Ada Error");
+                  console.log(data);
+                  console.log(data['responseText'])
+              }
+          });
+      });
+  });
+
 </script>
 @endsection

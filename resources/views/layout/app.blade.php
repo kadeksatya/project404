@@ -125,15 +125,15 @@
                   <a href="/profile-siswa/{{session('IDsiswa')}}" class="dropdown-item">
                     <i class="fas fa-user mr-2"></i> Profile
                   </a>
-              @else
-
+              @elseif(Auth::user()->role == 'admin')
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                  <i class="fas fa-key mr-2"></i> Ganti Password
+                  
+                </a>
               @endif
 
-              <div class="dropdown-divider"></div>
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-key mr-2"></i> Ganti Password
-                
-              </a>
+              
               <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}"
               onclick="event.preventDefault();
@@ -173,7 +173,7 @@
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
               @if (!empty(session('userIMG')))
-                <img src="{{asset('asset/img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{asset('/fotoPP/'.$userIMG)}}" class="img-circle elevation-2" alt="User Image">
               @else
                 <img src="{{asset('asset/img/logo.png')}}" class="img-circle elevation-2" alt="User Image">
               @endif
