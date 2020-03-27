@@ -30,8 +30,10 @@
     <script src="{{asset('asset/css/plugins/toastr/toastr.min.js')}}"></script>
     
 
+
+
 </head>
-<body class="hold-transition login-page background">
+<body class="hold-transition login-page body">
         <main class="py-4">
             @yield('content')
         </main>
