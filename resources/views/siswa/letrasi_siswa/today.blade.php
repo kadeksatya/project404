@@ -374,8 +374,19 @@
 
         $(".delete-data").click(function(){
             var id_literasi=$(this).data('id');
-            var cek = confirm ("Apakah Anda Yakin?");
-            if (cek == true) {
+            swal.fire({
+              title: 'Anda Yakin?',
+              text: "Anda akan kehilangan data tersebut!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+
               $.ajax({
               type: "DELETE",
               url: "literasi-siswa/"+id_literasi,
@@ -387,14 +398,29 @@
                     // Do something after 3 seconds
                     // This can be direct code, or call to some other function
                     location.reload();
-                    }, 3000);
+                    }, 1000);
                 },
                 error: function (data) {
                     console.log('Error:', data);
                 }
               });
-            } 
-            
+           
+              swal.fire(
+                  'Sukses!',
+                  'Hapus Data Berhasil Dilakukan !',
+                  'success'
+                )
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swal.fire(
+                  'Gagal',
+                  'Permintaan Hapus Dibatalkan ',
+                  'error'
+                )
+              }
+            })
 
           });
           $(".edit-password").click(function(){
@@ -445,7 +471,7 @@ if ($("#formliterasi").length > 0) {
                 // Do something after 3 seconds
                 // This can be direct code, or call to some other function
                 location.reload();
-                }, 3000);
+                }, 1000);
           },
           error: function (data) {
               alert("Upss! Ada Error");

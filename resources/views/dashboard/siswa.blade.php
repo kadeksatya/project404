@@ -286,7 +286,7 @@
                     // Do something after 3 seconds
                     // This can be direct code, or call to some other function
                     location.reload();
-                    }, 3000);
+                    }, 1000);
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -359,7 +359,7 @@ if ($("#formsiswa").length > 0) {
                     // Do something after 3 seconds
                     // This can be direct code, or call to some other function
                     location.reload();
-                    }, 3000);
+                    }, 1000);
           },
           error: function (data) {
             toastr.error("Ada Kesalahan Teknis, Coba Lagi!")
@@ -407,7 +407,7 @@ if ($("#formPass").length > 0) {
                     // Do something after 3 seconds
                     // This can be direct code, or call to some other function
                     location.reload();
-                    }, 3000);
+                    }, 1000);
           },
           error: function (data) {
               // alert(data->responseText);

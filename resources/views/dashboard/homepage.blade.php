@@ -19,7 +19,7 @@
         <div class="row">
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-primarys">
+            <div class="small-box bg-secondary color-palette">
               <div class="inner">
                 <h3>{{$jml_literasiToday}}</h3>
 

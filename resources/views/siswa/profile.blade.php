@@ -97,7 +97,7 @@
 
                       <div class="form-group row">
                         <div class="col-sm-10">
-                          <button type="button" class="btn btn-secondary" id="edit-profile" data-id="{{$profile->id}}" title="Edit Profile">Edit Profile</button>
+                          <button type="button" class="btn btn-secondary" id="edit-profile" data-id="{{$profile->id}}" data-nis="{{$profile->nis}}" data-name="{{$profile->name}}" title="Edit Profile">Edit Profile</button>
                         </div>
                       </div>
                     {{-- </form> --}}
@@ -115,6 +115,60 @@
   </div>
 
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="modalaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formsiswa" name="formsiswa" class="form-horizontal">
+            <input type="hidden" name="id_siswa" id="id_siswa">
+            {{-- <input type="hidden" name="id_users" id="id_users"> --}}
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label for="tanggal" class="col-sm-2 col-form-label">NISN :</label>
+                  <div class="input-group">
+                        <input type="text" class="form-control" id="nis" name="nis" required placeholder="Masukkan NISN">
+                        <div class="input-group-append">    
+                          <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+                        </div>
+                  </div>
+                </div>
+              </div>
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <label for="tanggal" class="col-sm-2 col-form-label">Nama :</label>
+                    <div class="input-group">
+                          <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan Nama Siswa">
+                          <div class="input-group-append">    
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                          </div>
+                    </div>
+                  </div>
+                
+              </div>
+            <br>
+            <br>
+                          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary tombolClose" >Close</button>
+        <button type="sumbit" class="btn btn-primary" id="action-button"></button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{-- end modal --}}
 
   {{-- modal ganti password --}}
   <div class="modal fade" id="modalPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -152,6 +206,37 @@
   </div>
   {{-- end modal --}}
 
+  {{-- modal ganti foto --}}
+  <div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" enctype="multipart/form-data" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formFoto" name="formFoto">
+              <input type="text" name="id_siswa2" id="id_siswa2" value="">
+              <div class="row">
+
+                <div class="col-md-12">
+                  <input type="file" name="foto" id="foto" accept="image/x-png,image/gif,image/jpeg" required>
+                  
+                </div>               
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+          <button type="sumbit" class="btn btn-primary" id="buttonFoto"></button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{-- end modal --}}
+
   <script>
   
     $(document).ready(function(){
@@ -176,30 +261,22 @@
             $("#action-button").text("Tambah Data");
         });
 
-        $("#edit-data").click(function(){
-          
-            var siswa_id=$(this).data('id');
-            $.get('siswa/'+siswa_id+'/edit',function(data){
-              var id_kelas = document.getElementById("id_kelas");
-              var options = id_kelas.options;
-              kelas_id = data.id_kelas;
-              for (var i = 0; i < options.length; i++) {
-                if (options[i].value == kelas_id) {
-                  id_kelas.selectedIndex = i;
-                  }
-              }
-            $("#id_siswa").val(data.id);
-            $("#id_users").val(data.id_users);
-            $("#name").val(data.name);
-            $("#nis").val(data.nis);
-            $("#kelas").val(data.id_kelas);
+        $("#edit-profile").click(function(){
+          var id_siswa=$(this).data('id');
+          var nis=$(this).data('nis');
+          var name=$(this).data('name');
+
+            $("#id_siswa").val(id_siswa);
+            // $("#id_users").val(data.id_users);
+            $("#name").val(name);
+            $("#nis").val(nis);
+            // $("#kelas").val(data.id_kelas);
 
             $("#modalaction").modal("show");
-            $(".modal-title").text("Edit Data Siswa");
+            $(".modal-title").text("Edit Profile");
             $("#action-button").text("Simpan Perubahan");
             
             });
-        })
 
         $(".delete-data").click(function(){
             var id_siswa=$(this).data('id');
@@ -226,10 +303,62 @@
             var siswa_id=$(this).data('id');
             // alert(siswa_id);
             $("#modalPass").modal("show");
-            $(".modal-title").text("Ganti Password");
+            $(".modal-title").text("Ubah Password");
             $("#buttonPass").text("Simpan");
             $("#id_user").val(siswa_id);
           })
+          $("#edit-foto").click(function(){
+            var siswa_id=$(this).data('id');
+            // alert(siswa_id);
+            $("#modalFoto").modal("show");
+            $(".modal-title").text("Ubah Foto");
+            $("#buttonFoto").text("Upload");
+            $("#id_siswa2").val(siswa_id);
+          })
+
+          $('#buttonFoto').submit(function(evt) {
+                evt.preventDefault();
+                var formData = new FormData(this);
+
+                console.log(formData);
+                $.ajax({
+                type: 'POST',
+                url: "{{ route('siswa.foto') }}",
+                data:formData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    // $('#imagedisplay').html("<img src=" + data.url + "" + data.name + ">");
+                    if (data['success']) {
+                      console.log(data);
+                      toastr.success(data['success']);
+                      // $('#formFoto').trigger("reset");
+                      // $('#modalFoto').modal('hide');
+                      // $("#action-button").text("Tambah Data");
+                      // setTimeout(function() {
+                      //   // Do something after 3 seconds
+                      //   // This can be direct code, or call to some other function
+                      //   location.reload();
+                      //   }, 1000);
+                    } else {
+                      console.log(data);
+                      toastr.error(data['error']);
+                      $('#formFoto').trigger("reset");
+                      $('#modalFoto').modal('hide');
+                      $("#buttonFoto").text("Upload");
+                    }
+                },
+                error: function(data) {
+                    // $('#imagedisplay').html("<h2>this file type is not supported</h2>");
+                    // alert(data->responseText);
+                    console.log('Error:', data);
+                    // toastr.error("Upss! Ada Error");
+                    alert("Upss! Ada Error");
+                    $('#buttonFoto').html('Uploads');
+                }
+                });
+            });
     });
 
 
@@ -246,11 +375,11 @@ if ($("#formsiswa").length > 0) {
       // alert(data);
       $.ajax({
           data: $('#formsiswa').serialize(),
-          url: "{{ route('siswa.store') }}",
+          url: "{{ route('siswa.profileUpdate') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
-            alert("Berhasil");
+            toastr.success("Data Siswa berhasil disimpan")
             console.log(data);
             // toastr.success("Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
@@ -265,7 +394,11 @@ if ($("#formsiswa").length > 0) {
               $('#formsiswa').trigger("reset");
               $('#modalaction').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
+              setTimeout(function() {
+                    // Do something after 3 seconds
+                    // This can be direct code, or call to some other function
+                    location.reload();
+                    }, 1000);
           },
           error: function (data) {
               alert("Upss! Ada Error");
@@ -289,13 +422,13 @@ if ($("#formPass").length > 0) {
       // alert(data);
       $.ajax({
           data: $('#formPass').serialize(),
-          url: "{{ route('siswa.gantipass') }}",
+          url: "{{ route('siswa.password') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
             // alert(data);
             console.log(data);
-            alert('berhasil')
+            toastr.success("Password berhasil diubah")
             // toastr.success("Ubah Password Berhasil");
             // var siswa='<tr id="siswa_id_'+data.id+'"><th scope="row">'+ data.id +'</th><td>'+ data.nis +'</td><td>'+ data.name +'</td><td>'+ data.kelas +'</td>';
             //  siswa+='<td class="text-center" width="1%"><div class="btn-group mr-2" role="group" aria-label="First group"><button class="btn btn-danger btn-sm" id="delete-data" data-id="'+ data.id +'"><i class="fa fa-trash"></i></button><button class="btn btn-primary btn-sm" id="edit-data" data-id="'+ data.id +'"><i class="fa fa-pen"></i></button></div></td></tr>';
@@ -306,10 +439,9 @@ if ($("#formPass").length > 0) {
             //   } else {
             //       $("#siswa_id_" + data.id).replaceWith(post);
             //   }
-              $('#formsiswa').trigger("reset");
-              $('#modalaction').modal('hide');
+              $('#formPass').trigger("reset");
+              $('#modalPass').modal('hide');
               $("#action-button").text("Tambah Data");
-              location.reload();
           },
           error: function (data) {
               // alert(data->responseText);
@@ -322,5 +454,58 @@ if ($("#formPass").length > 0) {
     }
   })
 }
+// if ($("#formFoto").length > 0) {
+//       $("#formFoto").validate({
+ 
+//      submitHandler: function(form) {
+
+//       var actionType = $('#buttonFoto').val();
+//       $('#buttonFoto').html('Sending..');
+
+//       // data= $('#formFoto').serialize();
+//       var form = $('#formFoto')[0];
+//       var formData = new FormData(form);
+//       // alert(form);
+//       console.log(form,formData);
+//       $.ajax({
+//           data: $('#formFoto').serialize(),
+//           url: "{{ route('siswa.foto') }}",
+//           type: "POST",
+//           dataType: 'json',
+//           enctype: 'multipart/form-data',
+//           success: function (data) {
+
+//             if (data['success']) {
+//               console.log(data);
+//               toastr.success(data['success'])
+//               $('#formFoto').trigger("reset");
+//               $('#modalFoto').modal('hide');
+//               // $("#action-button").text("Tambah Data");
+//               setTimeout(function() {
+//                 // Do something after 3 seconds
+//                 // This can be direct code, or call to some other function
+//                 location.reload();
+//                 }, 1000);
+//             } else {
+//               console.log(data);
+//               toastr.error(data['error'])
+//               $('#formFoto').trigger("reset");
+//               $('#modalFoto').modal('hide');
+//               // $("#action-button").text("Upload");
+//             }
+              
+//           },
+//           error: function (data) {
+//               // alert(data->responseText);
+//               console.log('Error:', data);
+//               // toastr.error("Upss! Ada Error");
+//               alert("Upss! Ada Error");
+//               $('#btn-save').html('Save Changes');
+//           }
+//       });
+//     }
+//   })
+// }
+
 </script>
 @endsection
