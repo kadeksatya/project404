@@ -59,6 +59,9 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
 
+
+
+
 body {
   margin: 0;
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -20020,7 +20023,10 @@ html.maximized-card {
 .register-page {
   -ms-flex-align: center;
   align-items: center;
-  background: #e9ecef;
+  background-image: url("/asset/background.jpeg") !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
